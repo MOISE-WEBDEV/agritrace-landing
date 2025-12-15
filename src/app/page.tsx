@@ -12,19 +12,23 @@ import Footer from '@/components/Footer'
 const APP_URL = 'https://www.app.agritrace.fr'
 
 export default function Home() {
-  const handleGetStarted = () => {
-    window.location.href = APP_URL
+  const handleSignup = () => {
+    window.location.href = `${APP_URL}/signup`
+  }
+
+  const handleLogin = () => {
+    window.location.href = `${APP_URL}/login`
   }
 
   return (
     <main className="min-h-screen">
-      <Header onGetStarted={handleGetStarted} />
-      <Hero onGetStarted={handleGetStarted} />
+      <Header onSignup={handleSignup} onLogin={handleLogin} />
+      <Hero onGetStarted={handleSignup} />
       <Features />
       <Services />
       <Testimonials />
-      <Pricing onGetStarted={handleGetStarted} />
-      <CTA onGetStarted={handleGetStarted} />
+      <Pricing onGetStarted={handleSignup} />
+      <CTA onGetStarted={handleSignup} />
       <Footer />
     </main>
   )

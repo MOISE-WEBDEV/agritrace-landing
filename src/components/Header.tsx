@@ -3,10 +3,11 @@
 import { useState } from 'react'
 
 interface HeaderProps {
-  onGetStarted: () => void
+  onSignup: () => void
+  onLogin: () => void
 }
 
-export default function Header({ onGetStarted }: HeaderProps) {
+export default function Header({ onSignup, onLogin }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -38,13 +39,13 @@ export default function Header({ onGetStarted }: HeaderProps) {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <button
-              onClick={onGetStarted}
+              onClick={onLogin}
               className="text-agri-green hover:text-agri-green-dark font-medium transition-colors"
             >
               Se connecter
             </button>
             <button
-              onClick={onGetStarted}
+              onClick={onSignup}
               className="bg-agri-green hover:bg-agri-green-dark text-white px-5 py-2 rounded-full font-medium transition-all hover:shadow-lg"
             >
               Créer un compte
@@ -78,13 +79,13 @@ export default function Header({ onGetStarted }: HeaderProps) {
               </a>
               <hr />
               <button
-                onClick={onGetStarted}
+                onClick={onLogin}
                 className="text-agri-green font-medium text-left"
               >
                 Se connecter
               </button>
               <button
-                onClick={onGetStarted}
+                onClick={onSignup}
                 className="bg-agri-green text-white px-5 py-2 rounded-full font-medium w-full"
               >
                 Créer un compte
