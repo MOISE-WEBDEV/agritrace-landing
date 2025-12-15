@@ -17,7 +17,7 @@ export default function Home() {
   }
 
   const handleLogin = () => {
-    window.location.href = `${APP_URL}/login`
+    window.location.href = APP_URL
   }
 
   return (
