@@ -107,7 +107,7 @@ const faqCategories = [
     items: [
       {
         question: "Comment contacter le support ?",
-        answer: "Vous pouvez nous contacter par email à support@agritrace.fr ou via le formulaire de contact dans l'application. Nous répondons généralement sous 24h ouvrées."
+        answer: "Vous pouvez nous contacter par email à service.client@agritrace.com ou via le formulaire de contact dans l'application. Nous répondons généralement sous 24h ouvrées."
       },
       {
         question: "Proposez-vous des formations ?",
@@ -115,7 +115,7 @@ const faqCategories = [
       },
       {
         question: "J'ai trouvé un bug, comment le signaler ?",
-        answer: "Vous pouvez signaler un bug via le bouton 'Signaler un problème' dans l'application ou par email à support@agritrace.fr. Décrivez le problème et joignez une capture d'écran si possible."
+        answer: "Vous pouvez signaler un bug via le bouton 'Signaler un problème' dans l'application ou par email à service.client@agritrace.com. Décrivez le problème et joignez une capture d'écran si possible."
       }
     ]
   }
@@ -180,7 +180,7 @@ export default function FAQ() {
             Notre équipe est là pour vous aider. Contactez-nous et nous vous répondrons rapidement.
           </p>
           <a
-            href="mailto:support@agritrace.fr"
+            href="mailto:service.client@agritrace.com"
             className="inline-block bg-agri-green hover:bg-agri-green-dark text-white px-6 py-3 rounded-full font-medium transition-colors"
           >
             Contacter le support

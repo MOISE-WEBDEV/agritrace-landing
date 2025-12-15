@@ -31,9 +31,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="mailto:contact@agritrace.fr" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="mailto:service.client@agritrace.com" className="hover:text-white transition-colors">Contact</a></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">Centre d&apos;aide</Link></li>
-              <li><a href="mailto:support@agritrace.fr" className="hover:text-white transition-colors">Support technique</a></li>
+              <li><a href="mailto:service.client@agritrace.com" className="hover:text-white transition-colors">Support technique</a></li>
             </ul>
           </div>
 
