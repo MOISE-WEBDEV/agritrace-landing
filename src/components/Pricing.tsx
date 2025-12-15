@@ -1,5 +1,5 @@
 interface PricingProps {
-  onGetStarted: () => void
+  onGetStarted: (plan?: string) => void
 }
 
 const plans = [
@@ -35,6 +35,7 @@ const plans = [
     ],
     cta: 'Choisir Pro',
     highlighted: true,
+    plan: 'pro',
   },
   {
     name: 'Enterprise',
@@ -52,6 +53,7 @@ const plans = [
     ],
     cta: 'Nous contacter',
     highlighted: false,
+    isContact: true,
   },
 ]
 
@@ -110,16 +112,29 @@ export default function Pricing({ onGetStarted }: PricingProps) {
                   </li>
                 ))}
               </ul>
-              <button
-                onClick={onGetStarted}
-                className={`w-full py-3 rounded-full font-semibold transition-all ${
-                  plan.highlighted
-                    ? 'bg-white text-agri-green hover:bg-gray-100'
-                    : 'bg-agri-green text-white hover:bg-agri-green-dark'
-                }`}
-              >
-                {plan.cta}
-              </button>
+              {plan.isContact ? (
+                <a
+                  href="mailto:service.client@agritrace.fr?subject=Demande%20d'information%20-%20Plan%20Enterprise"
+                  className={`block w-full py-3 rounded-full font-semibold transition-all text-center ${
+                    plan.highlighted
+                      ? 'bg-white text-agri-green hover:bg-gray-100'
+                      : 'bg-agri-green text-white hover:bg-agri-green-dark'
+                  }`}
+                >
+                  {plan.cta}
+                </a>
+              ) : (
+                <button
+                  onClick={() => onGetStarted(plan.plan)}
+                  className={`w-full py-3 rounded-full font-semibold transition-all ${
+                    plan.highlighted
+                      ? 'bg-white text-agri-green hover:bg-gray-100'
+                      : 'bg-agri-green text-white hover:bg-agri-green-dark'
+                  }`}
+                >
+                  {plan.cta}
+                </button>
+              )}
             </div>
           ))}
         </div>

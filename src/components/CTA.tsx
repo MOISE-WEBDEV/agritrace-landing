@@ -1,5 +1,5 @@
 interface CTAProps {
-  onGetStarted: () => void
+  onGetStarted: (plan?: string) => void
 }
 
 export default function CTA({ onGetStarted }: CTAProps) {
@@ -15,7 +15,7 @@ export default function CTA({ onGetStarted }: CTAProps) {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            onClick={onGetStarted}
+            onClick={() => onGetStarted()}
             className="bg-white text-agri-green hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
           >
             Créer mon compte gratuit

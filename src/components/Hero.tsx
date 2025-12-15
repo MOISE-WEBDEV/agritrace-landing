@@ -1,5 +1,5 @@
 interface HeroProps {
-  onGetStarted: () => void
+  onGetStarted: (plan?: string) => void
 }
 
 export default function Hero({ onGetStarted }: HeroProps) {
@@ -24,7 +24,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in-up delay-300">
               <button
-                onClick={onGetStarted}
+                onClick={() => onGetStarted()}
                 className="bg-agri-green hover:bg-agri-green-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl hover:scale-105"
               >
                 Commencer gratuitement
