@@ -10,7 +10,7 @@ import Pricing from '@/components/Pricing'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.agritrace.fr'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.app.agritrace.fr'
 
 export default function Home() {
   const [isFirstVisit, setIsFirstVisit] = useState(true)
