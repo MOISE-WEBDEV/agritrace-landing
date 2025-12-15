@@ -4,18 +4,19 @@ interface PricingProps {
 
 const plans = [
   {
-    name: 'Gratuit',
+    name: 'Essai Gratuit',
     price: '0€',
-    period: '/mois',
-    description: 'Parfait pour démarrer',
+    period: 'pendant 1 mois',
+    description: 'Testez toutes les fonctionnalités',
     features: [
-      'Jusqu\'à 5 parcelles',
+      'Accès complet pendant 30 jours',
+      'Parcelles illimitées',
       'Cartographie interactive',
       'Suivi des cultures',
-      'Historique 1 an',
       'Support par email',
+      'Sans engagement',
     ],
-    cta: 'Commencer gratuitement',
+    cta: 'Commencer l\'essai gratuit',
     highlighted: false,
   },
   {
@@ -32,7 +33,7 @@ const plans = [
       'Support prioritaire',
       'Export PDF des rapports',
     ],
-    cta: 'Essayer 30 jours gratuit',
+    cta: 'Choisir Pro',
     highlighted: true,
   },
   {
