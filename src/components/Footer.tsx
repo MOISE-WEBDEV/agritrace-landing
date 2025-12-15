@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -21,7 +23,7 @@ export default function Footer() {
               <li><a href="#fonctionnalites" className="hover:text-white transition-colors">Fonctionnalités</a></li>
               <li><a href="#tarifs" className="hover:text-white transition-colors">Tarifs</a></li>
               <li><a href="#temoignages" className="hover:text-white transition-colors">Témoignages</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Mises à jour</a></li>
+              <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -29,10 +31,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="mailto:service.client@agritrace.fr" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Centre d'aide</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="mailto:service.informatique@agritrace.fr" className="hover:text-white transition-colors">Support technique</a></li>
+              <li><a href="mailto:contact@agritrace.fr" className="hover:text-white transition-colors">Contact</a></li>
+              <li><Link href="/faq" className="hover:text-white transition-colors">Centre d&apos;aide</Link></li>
+              <li><a href="mailto:support@agritrace.fr" className="hover:text-white transition-colors">Support technique</a></li>
             </ul>
           </div>
 
@@ -40,10 +41,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Légal</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Mentions légales</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Politique de confidentialité</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">CGU</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">RGPD</a></li>
+              <li><Link href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link></li>
+              <li><Link href="/confidentialite" className="hover:text-white transition-colors">Politique de confidentialité</Link></li>
+              <li><Link href="/cgu" className="hover:text-white transition-colors">CGU</Link></li>
+              <li><Link href="/confidentialite#8" className="hover:text-white transition-colors">RGPD</Link></li>
             </ul>
           </div>
         </div>
@@ -53,13 +54,13 @@ export default function Footer() {
             © 2025 Agritrace. Tous droits réservés.
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <span className="text-xl">📘</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <span className="text-xl">🐦</span>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <span className="text-xl">📸</span>
             </a>
           </div>
