@@ -22,6 +22,7 @@ export default function MentionsLegales() {
             <p className="text-gray-600 leading-relaxed">
               Le site <strong>www.agritrace.fr</strong> est édité par :<br /><br />
               <strong>Agritrace</strong><br />
+              Adresse : 1 route du Rond d&apos;Orléans, 02300 Sinceny<br />
               Email : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a>
             </p>
           </section>
