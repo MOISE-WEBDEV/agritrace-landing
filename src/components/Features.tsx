@@ -28,6 +28,7 @@ const features = [
     icon: '👥',
     title: 'Gestion d\'Équipe',
     description: 'Créez des comptes pour vos employés et assignez-leur des tâches sur vos parcelles.',
+    video: '/videos/team-demo.mp4',
   },
   {
     icon: '📊',
