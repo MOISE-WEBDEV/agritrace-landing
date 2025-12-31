@@ -71,16 +71,18 @@ export default function Features() {
 
               {/* Video popup on hover */}
               {feature.video && hoveredIndex === index && (
-                <div className="absolute left-full top-0 ml-4 z-50 w-[500px] rounded-xl overflow-hidden shadow-2xl border border-gray-200 bg-black">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-auto"
-                  >
-                    <source src={feature.video} type="video/mp4" />
-                  </video>
+                <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                  <div className="w-[800px] max-w-[90vw] rounded-xl overflow-hidden shadow-2xl border border-gray-200 bg-black">
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-auto"
+                    >
+                      <source src={feature.video} type="video/mp4" />
+                    </video>
+                  </div>
                 </div>
               )}
             </div>
