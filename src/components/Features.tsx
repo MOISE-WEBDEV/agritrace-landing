@@ -1,8 +1,13 @@
+'use client'
+
+import { useState } from 'react'
+
 const features = [
   {
     icon: '🗺️',
     title: 'Cartographie Interactive',
     description: 'Visualisez et gérez vos parcelles sur une carte interactive avec intégration cadastrale automatique.',
+    video: '/videos/map-demo.mp4',
   },
   {
     icon: '🌱',
@@ -32,6 +37,8 @@ const features = [
 ]
 
 export default function Features() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
   return (
     <section id="fonctionnalites" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +55,9 @@ export default function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-agri-green/30 hover:shadow-xl transition-all duration-300"
+              className="group relative p-6 bg-white rounded-2xl border border-gray-100 hover:border-agri-green/30 hover:shadow-xl transition-all duration-300"
+              onMouseEnter={() => feature.video && setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
               <div className="w-14 h-14 bg-agri-green-light rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
                 {feature.icon}
@@ -59,6 +68,21 @@ export default function Features() {
               <p className="text-gray-600">
                 {feature.description}
               </p>
+
+              {/* Video popup on hover */}
+              {feature.video && hoveredIndex === index && (
+                <div className="absolute left-full top-0 ml-4 z-50 w-[500px] rounded-xl overflow-hidden shadow-2xl border border-gray-200 bg-black">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-auto"
+                  >
+                    <source src={feature.video} type="video/mp4" />
+                  </video>
+                </div>
+              )}
             </div>
           ))}
         </div>
