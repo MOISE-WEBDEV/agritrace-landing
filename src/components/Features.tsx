@@ -24,6 +24,7 @@ const features = [
     icon: '🌤️',
     title: 'Météo Intégrée',
     description: 'Consultez les données de précipitations et conditions météo pour optimiser vos interventions.',
+    video: '/videos/meteo-demo.mp4',
   },
   {
     icon: '👥',
