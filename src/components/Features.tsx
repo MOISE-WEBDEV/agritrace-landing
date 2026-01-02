@@ -34,6 +34,7 @@ const features = [
     icon: '📊',
     title: 'Historique Complet',
     description: 'Accédez à l\'historique de toutes vos activités pour une traçabilité parfaite.',
+    video: '/videos/history-demo-compressed.mp4',
   },
 ]
 
