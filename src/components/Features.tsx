@@ -18,6 +18,7 @@ const features = [
     icon: '💊',
     title: 'Traçabilité Phytosanitaire',
     description: 'Documentez toutes vos interventions avec accès à la base E-Phy officielle des produits autorisés.',
+    video: '/videos/phyto-register-demo.mp4',
   },
   {
     icon: '🌤️',
