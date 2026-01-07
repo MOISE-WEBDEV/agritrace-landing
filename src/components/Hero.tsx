@@ -83,16 +83,16 @@ export default function Hero({ onGetStarted }: HeroProps) {
               <div className="space-y-3">
                 <p className="font-medium text-gray-700">Activité récente</p>
                 <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                  <span className="text-xl">🌾</span>
+                  <span className="text-xl">💊</span>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Semis de blé - Parcelle Nord</p>
-                    <p className="text-xs text-gray-500">Il y a 2 heures</p>
+                    <p className="text-sm font-medium">Traitement fongicide - Blé Parcelle Sud</p>
+                    <p className="text-xs text-gray-500">Il y a 3 heures</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                  <span className="text-xl">💊</span>
+                  <span className="text-xl">🌱</span>
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Traitement fongicide enregistré</p>
+                    <p className="text-sm font-medium">Apport d'azote - Colza Parcelle Est</p>
                     <p className="text-xs text-gray-500">Hier</p>
                   </div>
                 </div>
