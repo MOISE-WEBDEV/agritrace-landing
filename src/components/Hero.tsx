@@ -60,20 +60,20 @@ export default function Hero({ onGetStarted }: HeroProps) {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-800">Mes Parcelles</p>
-                    <p className="text-sm text-gray-500">3 parcelles actives</p>
+                    <p className="text-sm text-gray-500">12 parcelles actives</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-white rounded-lg p-3 text-center">
-                    <p className="text-2xl font-bold text-agri-green">45</p>
+                    <p className="text-2xl font-bold text-agri-green">180</p>
                     <p className="text-xs text-gray-500">Hectares</p>
                   </div>
                   <div className="bg-white rounded-lg p-3 text-center">
-                    <p className="text-2xl font-bold text-agri-green">12</p>
+                    <p className="text-2xl font-bold text-agri-green">28</p>
                     <p className="text-xs text-gray-500">Interventions</p>
                   </div>
                   <div className="bg-white rounded-lg p-3 text-center">
-                    <p className="text-2xl font-bold text-agri-green">98%</p>
+                    <p className="text-2xl font-bold text-agri-green">100%</p>
                     <p className="text-xs text-gray-500">Traçabilité</p>
                   </div>
                 </div>
