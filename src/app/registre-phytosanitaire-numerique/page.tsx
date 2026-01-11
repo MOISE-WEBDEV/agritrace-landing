@@ -19,7 +19,7 @@ export default function RegistrePhytosanitaireNumerique() {
             onClick={() => setShowSignupModal(true)}
             className="bg-agri-green hover:bg-agri-green-dark text-white px-5 py-2 rounded-full font-medium transition-colors"
           >
-            Essai gratuit
+            Essai 30 jours
           </button>
         </div>
       </header>
@@ -32,7 +32,7 @@ export default function RegistrePhytosanitaireNumerique() {
               Obligatoire dès 2027
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Registre Phytosanitaire <span className="text-agri-green">Numérique</span> Gratuit
+              Registre Phytosanitaire <span className="text-agri-green">Numérique</span> Automatique
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Tenez votre registre phytosanitaire sans effort. Chaque traitement enregistré dans Agritrace
@@ -43,7 +43,7 @@ export default function RegistrePhytosanitaireNumerique() {
                 onClick={() => setShowSignupModal(true)}
                 className="bg-agri-green hover:bg-agri-green-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
               >
-                Créer mon registre gratuitement
+                Essayer 30 jours
               </button>
               <a
                 href="#fonctionnement"
@@ -149,9 +149,9 @@ export default function RegistrePhytosanitaireNumerique() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: '🆓',
-                title: 'Gratuit',
-                description: 'Commencez gratuitement, sans carte bancaire requise.',
+                icon: '🎯',
+                title: 'Essai 30 jours',
+                description: 'Testez toutes les fonctionnalités pendant 30 jours.',
               },
               {
                 icon: '⚡',
@@ -207,13 +207,13 @@ export default function RegistrePhytosanitaireNumerique() {
           </h2>
           <p className="text-xl text-white/90 mb-8">
             Rejoignez les agriculteurs qui ont simplifié leur traçabilité avec Agritrace.
-            Gratuit pour démarrer, sans engagement.
+            Essai 30 jours, sans engagement.
           </p>
           <button
             onClick={() => setShowSignupModal(true)}
             className="bg-white text-agri-green hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
           >
-            Créer mon compte gratuitement
+            Commencer l'essai
           </button>
         </div>
       </section>
@@ -241,7 +241,7 @@ export default function RegistrePhytosanitaireNumerique() {
           <div className="bg-white rounded-2xl p-8 max-w-md w-full">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Créer votre compte</h3>
             <p className="text-gray-600 mb-6">
-              Vous allez être redirigé vers l'application Agritrace pour créer votre compte gratuitement.
+              Vous allez être redirigé vers l'application Agritrace pour créer votre compte et profiter de 30 jours d'essai.
             </p>
             <div className="flex gap-4">
               <button

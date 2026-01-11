@@ -14,7 +14,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 animate-fade-in-up delay-100">
-              Logiciel de <span className="text-agri-green">Traçabilité Agricole</span> Gratuit
+              Logiciel de <span className="text-agri-green">Traçabilité Agricole</span>
             </h1>
 
             <h2 className="text-xl md:text-2xl font-semibold text-gray-700 mb-4 animate-fade-in-up delay-150">
