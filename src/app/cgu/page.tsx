@@ -152,6 +152,53 @@ export default function CGU() {
               Agritrace ne pourra être tenu responsable des dommages indirects, pertes de données ou manque
               à gagner résultant de l&apos;utilisation ou de l&apos;impossibilité d&apos;utiliser le service.
             </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              <strong>9.3 Produits phytosanitaires et traitements agricoles</strong><br />
+              Agritrace est un outil de gestion et de traçabilité agricole. En aucun cas, Agritrace ne peut
+              être tenu responsable :
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-2">
+              <li>Des erreurs de traitement ou d&apos;application de produits phytosanitaires</li>
+              <li>Des erreurs de dosage, de dilution ou de quantités appliquées</li>
+              <li>Des erreurs de choix de produits ou de substances actives</li>
+              <li>Des erreurs de prescription ou de recommandation</li>
+              <li>Des conséquences sanitaires, environnementales ou économiques liées à l&apos;utilisation de produits</li>
+              <li>Des non-conformités réglementaires dans l&apos;utilisation des produits phytosanitaires</li>
+            </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              <strong>9.4 Responsabilité professionnelle</strong><br />
+              Les techniciens agricoles, conseillers et prescripteurs sont seuls responsables de leurs
+              prescriptions, recommandations et conseils techniques. Agritrace n&apos;intervient pas dans
+              les décisions agronomiques et ne peut être tenu responsable des choix techniques effectués
+              par les professionnels agricoles.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              <strong>9.5 Obligation de vérification</strong><br />
+              L&apos;utilisateur a l&apos;obligation de vérifier l&apos;exactitude de toutes les données et informations
+              présentes dans la plateforme avant toute prise de décision ou action. Il appartient à
+              l&apos;utilisateur de :
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-2">
+              <li>Vérifier la conformité des produits et dosages avec la réglementation en vigueur</li>
+              <li>Valider les calculs de doses et de surfaces traitées</li>
+              <li>Consulter les étiquettes et fiches de données de sécurité des produits</li>
+              <li>Respecter les conditions d&apos;emploi et les précautions d&apos;usage des produits phytosanitaires</li>
+              <li>S&apos;assurer de disposer des autorisations et certifications nécessaires (Certiphyto, etc.)</li>
+            </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              <strong>9.6 Conformité réglementaire</strong><br />
+              L&apos;utilisateur est seul responsable du respect de la réglementation applicable aux produits
+              phytosanitaires, notamment le respect des autorisations de mise sur le marché (AMM), des
+              délais avant récolte (DAR), des zones non traitées (ZNT), et de toute autre obligation
+              légale ou réglementaire en matière d&apos;utilisation de produits phytosanitaires.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              <strong>9.7 Outil d&apos;aide à la décision</strong><br />
+              Agritrace est un outil d&apos;aide à la gestion et à la traçabilité. Les informations fournies
+              par la plateforme ne constituent en aucun cas un conseil agronomique, une prescription ou
+              une recommandation technique. Il appartient à l&apos;utilisateur de faire appel à un professionnel
+              qualifié pour toute décision technique concernant l&apos;utilisation de produits phytosanitaires.
+            </p>
           </section>
 
           <section>
