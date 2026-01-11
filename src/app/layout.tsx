@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Agritrace - Plateforme de Traçabilité Agricole',
-  description: 'Gérez vos parcelles, suivez vos cultures et tracez vos interventions phytosanitaires avec Agritrace. Solution complète pour les agriculteurs.',
-  keywords: 'agriculture, traçabilité, parcelles, cultures, phytosanitaire, exploitation agricole, gestion exploitation',
+  title: 'Agritrace - Registre Phytosanitaire Numerique Gratuit | Tracabilite Agricole',
+  description: 'Registre phytosanitaire numerique automatique et gratuit. Conforme reglementation 2027. Gerez vos parcelles, cultures et traitements phyto. Export PDF/CSV.',
+  keywords: 'registre phytosanitaire numerique, registre phyto, tracabilite agricole, logiciel agricole gratuit, gestion parcelles, traitement phytosanitaire, reglementation 2027, PAC, E-Phy',
   metadataBase: new URL('https://www.agritrace.fr'),
   openGraph: {
-    title: 'Agritrace - Simplifiez la gestion de votre exploitation',
-    description: 'Gérez vos parcelles, suivez vos cultures et optimisez votre exploitation agricole. Essai gratuit 30 jours.',
+    title: 'Agritrace - Registre Phytosanitaire Numerique Gratuit',
+    description: 'Registre phyto automatique conforme 2027. Vos traitements sont traces automatiquement. Gratuit pour les agriculteurs.',
     url: 'https://www.agritrace.fr',
     siteName: 'Agritrace',
     images: [
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Agritrace - Simplifiez la gestion de votre exploitation',
-    description: 'Gérez vos parcelles, suivez vos cultures et optimisez votre exploitation agricole.',
+    title: 'Agritrace - Registre Phytosanitaire Numerique Gratuit',
+    description: 'Registre phyto automatique conforme 2027. Traitements traces automatiquement. Gratuit.',
     images: ['/logo.png'],
   },
 }

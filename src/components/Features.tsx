@@ -2,7 +2,15 @@
 
 import { useState } from 'react'
 
-const features = [
+interface Feature {
+  icon: string
+  title: string
+  description: string
+  video?: string
+  badge?: string
+}
+
+const features: Feature[] = [
   {
     icon: '🗺️',
     title: 'Cartographie Interactive',
@@ -16,9 +24,10 @@ const features = [
   },
   {
     icon: '💊',
-    title: 'Traçabilité Phytosanitaire',
-    description: 'Documentez toutes vos interventions avec accès à la base E-Phy officielle des produits autorisés.',
+    title: 'Registre Phytosanitaire Numérique',
+    description: 'Registre phyto automatique : chaque traitement enregistré est automatiquement tracé dans votre registre. Conforme réglementation 2027, accès base E-Phy officielle, export PDF/CSV.',
     video: '/videos/phyto-register-demo.mp4',
+    badge: 'Obligatoire 2027',
   },
   {
     icon: '🌤️',
@@ -66,9 +75,16 @@ export default function Features() {
               <div className="w-14 h-14 bg-agri-green-light rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {feature.title}
-              </h3>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {feature.title}
+                </h3>
+                {feature.badge && (
+                  <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
+                    {feature.badge}
+                  </span>
+                )}
+              </div>
               <p className="text-gray-600">
                 {feature.description}
               </p>
