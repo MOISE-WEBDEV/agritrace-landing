@@ -13,13 +13,13 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-64">
+        <div className="flex justify-between items-center h-32">
           {/* Logo */}
           <a href="/" className="flex items-center group">
             <img
               src="/logo.png"
               alt="Agritrace"
-              className="h-64 w-auto transition-transform group-hover:scale-105"
+              className="h-32 w-auto transition-transform group-hover:scale-105"
             />
           </a>
 
