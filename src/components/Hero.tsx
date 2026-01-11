@@ -4,7 +4,7 @@ interface HeroProps {
 
 export default function Hero({ onGetStarted }: HeroProps) {
   return (
-    <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-br from-agri-green-light via-white to-green-50">
+    <section className="pt-72 pb-16 md:pt-80 md:pb-24 bg-gradient-to-br from-agri-green-light via-white to-green-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
