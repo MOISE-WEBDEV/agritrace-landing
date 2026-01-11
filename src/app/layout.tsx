@@ -13,10 +13,10 @@ export const metadata: Metadata = {
     siteName: 'Agritrace',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
-        alt: 'Agritrace - Plateforme de gestion agricole',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Agritrace - Logiciel de Traçabilité Agricole Gratuit',
       },
     ],
     locale: 'fr_FR',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Agritrace - Registre Phytosanitaire Numerique Gratuit',
     description: 'Registre phyto automatique conforme 2027. Traitements traces automatiquement. Gratuit.',
-    images: ['/logo.png'],
+    images: ['/og-image.png'],
   },
 }
 

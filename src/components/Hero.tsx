@@ -14,12 +14,16 @@ export default function Hero({ onGetStarted }: HeroProps) {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 animate-fade-in-up delay-100">
-              Gérez votre exploitation <span className="text-agri-green">en toute simplicité</span>
+              Logiciel de <span className="text-agri-green">Traçabilité Agricole</span> Gratuit
             </h1>
 
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-700 mb-4 animate-fade-in-up delay-150">
+              Registre Phytosanitaire Numérique Automatique
+            </h2>
+
             <p className="text-lg md:text-xl text-gray-600 mb-8 animate-fade-in-up delay-200">
-              Agritrace vous accompagne dans la gestion quotidienne de vos parcelles,
-              le suivi de vos cultures et la traçabilité de vos interventions phytosanitaires.
+              Gérez vos parcelles, suivez vos cultures et tenez votre registre phytosanitaire sans effort.
+              Chaque traitement enregistré est automatiquement tracé. Conforme réglementation 2027.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in-up delay-300">
