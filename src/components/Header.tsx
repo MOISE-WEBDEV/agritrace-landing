@@ -15,15 +15,12 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group">
+          <a href="/" className="flex items-center group">
             <img
               src="/logo.png"
-              alt="Agritrace Logo"
-              className="h-10 w-auto transition-transform group-hover:scale-105"
+              alt="Agritrace"
+              className="h-16 w-auto transition-transform group-hover:scale-105"
             />
-            <span className="text-xl font-bold text-agri-green group-hover:text-agri-green-dark transition-colors">
-              Agritrace
-            </span>
           </a>
 
           {/* Desktop Navigation */}

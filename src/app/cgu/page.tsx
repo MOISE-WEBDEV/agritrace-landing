@@ -6,13 +6,12 @@ export default function CGU() {
       {/* Header simple */}
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <Link href="/" className="flex items-center gap-3 text-agri-green hover:text-agri-green-dark group">
+          <Link href="/" className="flex items-center group">
             <img
               src="/logo.png"
-              alt="Agritrace Logo"
-              className="h-8 w-auto transition-transform group-hover:scale-105"
+              alt="Agritrace"
+              className="h-12 w-auto transition-transform group-hover:scale-105"
             />
-            <span className="font-bold">Agritrace</span>
           </Link>
         </div>
       </header>

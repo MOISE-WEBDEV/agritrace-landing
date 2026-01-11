@@ -7,13 +7,12 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <a href="/" className="flex items-center gap-3 mb-4 w-fit">
+            <a href="/" className="flex items-center mb-4 w-fit">
               <img
                 src="/logo.png"
-                alt="Agritrace Logo"
-                className="h-10 w-auto"
+                alt="Agritrace"
+                className="h-14 w-auto"
               />
-              <span className="text-xl font-bold">Agritrace</span>
             </a>
             <p className="text-gray-400 text-sm">
               La plateforme de traçabilité agricole qui simplifie la gestion de votre exploitation.
