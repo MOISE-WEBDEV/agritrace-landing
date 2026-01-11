@@ -10,7 +10,7 @@ export default function CGU() {
             <img
               src="/logo.png"
               alt="Agritrace"
-              className="h-24 w-auto transition-transform group-hover:scale-105"
+              className="h-48 w-auto transition-transform group-hover:scale-105"
             />
           </Link>
         </div>

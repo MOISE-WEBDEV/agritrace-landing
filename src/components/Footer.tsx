@@ -11,7 +11,7 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="Agritrace"
-                className="h-28 w-auto"
+                className="h-56 w-auto"
               />
             </a>
             <p className="text-gray-400 text-sm">
