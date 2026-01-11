@@ -66,7 +66,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/agri_trace/"
+              href="https://www.instagram.com/agritrace.fr/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
