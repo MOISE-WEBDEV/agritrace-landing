@@ -5,66 +5,53 @@ import Image from 'next/image'
 
 // Interface pour les articles de presse
 export interface PressArticle {
-  id: string
+  id: string | number
   title: string
   excerpt: string
-  source: string // Nom du média (ex: "La France Agricole")
-  sourceUrl?: string // URL du média
-  articleUrl: string // URL de l'article original
-  imageUrl?: string // Image de l'article ou logo du média
-  publishedAt: string // Date ISO
-  type: 'press' | 'social' | 'blog' // Type de contenu
+  source: string
+  sourceUrl?: string
+  articleUrl: string
+  imageUrl?: string
+  publishedAt: string
+  type: 'press' | 'social' | 'blog'
 }
 
-// Articles par défaut (à remplacer par vos vrais articles)
-const defaultArticles: PressArticle[] = [
-  {
-    id: '1',
-    title: 'Agritrace révolutionne la traçabilité agricole',
-    excerpt: 'Une startup française propose une solution innovante pour simplifier le registre phytosanitaire numérique des agriculteurs.',
-    source: 'La France Agricole',
-    articleUrl: '#',
-    imageUrl: '/images/press/france-agricole.png',
-    publishedAt: '2025-01-10',
-    type: 'press'
-  },
-  {
-    id: '2',
-    title: 'Le numérique au service des exploitations agricoles',
-    excerpt: 'Comment les outils digitaux transforment la gestion quotidienne des agriculteurs et facilitent la conformité réglementaire.',
-    source: 'Terre-net',
-    articleUrl: '#',
-    imageUrl: '/images/press/terre-net.png',
-    publishedAt: '2025-01-05',
-    type: 'press'
-  },
-  {
-    id: '3',
-    title: 'Réglementation 2027 : êtes-vous prêts ?',
-    excerpt: 'Agritrace accompagne les agriculteurs vers la conformité avec les nouvelles exigences du registre phytosanitaire électronique.',
-    source: 'Agritrace Blog',
-    articleUrl: '#',
-    imageUrl: '/images/press/agritrace-blog.png',
-    publishedAt: '2024-12-20',
-    type: 'blog'
-  }
-]
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.app.agritrace.fr'
 
 interface PressCarouselProps {
-  articles?: PressArticle[]
   title?: string
   subtitle?: string
 }
 
 export default function PressCarousel({
-  articles = defaultArticles,
   title = "Ils parlent de nous",
   subtitle = "Découvrez ce que la presse et nos partenaires disent d'Agritrace"
 }: PressCarouselProps) {
+  const [articles, setArticles] = useState<PressArticle[]>([])
+  const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  // Charger les articles depuis l'API
+  useEffect(() => {
+    fetchArticles()
+  }, [])
+
+  async function fetchArticles() {
+    try {
+      const response = await fetch(`${API_URL}/api/v1/press_articles`)
+      if (response.ok) {
+        const data = await response.json()
+        setArticles(data)
+      }
+    } catch (error) {
+      console.error('Error fetching press articles:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Nombre d'articles visibles selon la taille d'écran
   const getVisibleCount = () => {
@@ -120,6 +107,7 @@ export default function PressCarousel({
   }
 
   const formatDate = (dateString: string) => {
+    if (!dateString) return ''
     const date = new Date(dateString)
     return date.toLocaleDateString('fr-FR', {
       day: 'numeric',
@@ -160,7 +148,7 @@ export default function PressCarousel({
           "@type": "Organization",
           "name": article.source
         },
-        "url": article.articleUrl !== '#' ? article.articleUrl : undefined,
+        "url": article.articleUrl && article.articleUrl !== '#' ? article.articleUrl : undefined,
         "image": article.imageUrl
       }
     }))
@@ -175,6 +163,8 @@ export default function PressCarousel({
     }
   }
 
+  // Ne pas afficher si chargement ou pas d'articles
+  if (loading) return null
   if (articles.length === 0) return null
 
   return (
@@ -239,21 +229,18 @@ export default function PressCarousel({
                   itemType="https://schema.org/NewsArticle"
                 >
                   <a
-                    href={article.articleUrl}
-                    target={article.articleUrl !== '#' ? '_blank' : undefined}
-                    rel={article.articleUrl !== '#' ? 'noopener noreferrer' : undefined}
+                    href={article.articleUrl || '#'}
+                    target={article.articleUrl && article.articleUrl !== '#' ? '_blank' : undefined}
+                    rel={article.articleUrl && article.articleUrl !== '#' ? 'noopener noreferrer' : undefined}
                     className="block bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full group"
                   >
                     {/* Image */}
                     <div className="relative h-48 bg-gray-100 overflow-hidden">
                       {article.imageUrl ? (
-                        <Image
+                        <img
                           src={article.imageUrl}
                           alt={`${article.title} - ${article.source}`}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          itemProp="image"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-agri-green-light">
@@ -278,13 +265,15 @@ export default function PressCarousel({
                         >
                           <span itemProp="name">{article.source}</span>
                         </span>
-                        <time
-                          dateTime={article.publishedAt}
-                          className="text-gray-500"
-                          itemProp="datePublished"
-                        >
-                          {formatDate(article.publishedAt)}
-                        </time>
+                        {article.publishedAt && (
+                          <time
+                            dateTime={article.publishedAt}
+                            className="text-gray-500"
+                            itemProp="datePublished"
+                          >
+                            {formatDate(article.publishedAt)}
+                          </time>
+                        )}
                       </div>
 
                       {/* Titre */}
@@ -296,20 +285,24 @@ export default function PressCarousel({
                       </h3>
 
                       {/* Extrait */}
-                      <p
-                        className="text-gray-600 text-sm line-clamp-3"
-                        itemProp="description"
-                      >
-                        {article.excerpt}
-                      </p>
+                      {article.excerpt && (
+                        <p
+                          className="text-gray-600 text-sm line-clamp-3"
+                          itemProp="description"
+                        >
+                          {article.excerpt}
+                        </p>
+                      )}
 
                       {/* Lien */}
-                      <div className="mt-4 flex items-center text-agri-green font-medium text-sm group-hover:gap-2 transition-all">
-                        <span>Lire l'article</span>
-                        <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
+                      {article.articleUrl && article.articleUrl !== '#' && (
+                        <div className="mt-4 flex items-center text-agri-green font-medium text-sm group-hover:gap-2 transition-all">
+                          <span>Lire l&apos;article</span>
+                          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
                   </a>
                 </article>
