@@ -23,8 +23,8 @@ interface PressCarouselProps {
 }
 
 export default function PressCarousel({
-  title = "Ils parlent de nous",
-  subtitle = "Découvrez ce que la presse et nos partenaires disent d'Agritrace"
+  title = "Actualités",
+  subtitle = "Retrouvez nos dernières nouvelles, annonces et articles de presse"
 }: PressCarouselProps) {
   const [articles, setArticles] = useState<PressArticle[]>([])
   const [loading, setLoading] = useState(true)
@@ -166,8 +166,8 @@ export default function PressCarousel({
     return {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      "name": "Articles de presse sur Agritrace",
-      "description": "Revue de presse et actualités concernant Agritrace, logiciel de traçabilité agricole",
+      "name": "Actualités Agritrace",
+      "description": "Actualités, annonces et articles de presse concernant Agritrace, logiciel de traçabilité agricole",
       "numberOfItems": articles.length,
       "itemListElement": itemListElements
     }
