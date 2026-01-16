@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import Image from 'next/image'
 
 // Interface pour les articles de presse
 export interface PressArticle {
@@ -33,6 +32,7 @@ export default function PressCarousel({
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [imageErrors, setImageErrors] = useState<Set<string | number>>(new Set())
 
   // Charger les articles depuis l'API
   useEffect(() => {
@@ -134,6 +134,16 @@ export default function PressCarousel({
     }
   }
 
+  // Gestion des erreurs d'image
+  const handleImageError = (articleId: string | number) => {
+    setImageErrors(prev => new Set(prev).add(articleId))
+  }
+
+  // Verifier si l'image doit etre affichee
+  const shouldShowImage = (article: PressArticle) => {
+    return article.imageUrl && !imageErrors.has(article.id)
+  }
+
   // Générer les données structurées JSON-LD pour le SEO
   const generateJsonLd = () => {
     const itemListElements = articles.map((article, index) => ({
@@ -173,7 +183,7 @@ export default function PressCarousel({
       className="py-20 bg-gradient-to-b from-gray-50 to-white"
       aria-label="Revue de presse Agritrace"
     >
-      {/* Données structurées JSON-LD pour SEO */}
+      {/* Données structurées JSON-LD pour SEO - invisible */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateJsonLd()) }}
@@ -225,8 +235,6 @@ export default function PressCarousel({
                   key={article.id}
                   className="flex-shrink-0 px-3"
                   style={{ width: `${100 / visibleCount}%` }}
-                  itemScope
-                  itemType="https://schema.org/NewsArticle"
                 >
                   <a
                     href={article.articleUrl || '#'}
@@ -235,41 +243,40 @@ export default function PressCarousel({
                     className="block bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full group"
                   >
                     {/* Image */}
-                    <div className="relative h-48 bg-gray-100 overflow-hidden">
-                      {article.imageUrl ? (
+                    <div className="relative h-48 bg-gradient-to-br from-green-50 to-green-100 overflow-hidden">
+                      {shouldShowImage(article) ? (
                         <img
                           src={article.imageUrl}
-                          alt={`${article.title} - ${article.source}`}
+                          alt=""
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={() => handleImageError(article.id)}
+                          loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-agri-green-light">
-                          <span className="text-6xl">{getTypeIcon(article.type)}</span>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="text-center">
+                            <span className="text-5xl block mb-2">{getTypeIcon(article.type)}</span>
+                            <span className="text-green-700 font-medium text-sm">{article.source}</span>
+                          </div>
                         </div>
                       )}
                       {/* Badge type */}
-                      <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                      <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 shadow-sm">
                         {getTypeIcon(article.type)} {getTypeLabel(article.type)}
                       </span>
                     </div>
 
                     {/* Contenu */}
-                    <div className="p-6">
+                    <div className="p-5">
                       {/* Source et date */}
                       <div className="flex items-center justify-between mb-3 text-sm">
-                        <span
-                          className="font-semibold text-agri-green"
-                          itemProp="publisher"
-                          itemScope
-                          itemType="https://schema.org/Organization"
-                        >
-                          <span itemProp="name">{article.source}</span>
+                        <span className="font-semibold text-green-600">
+                          {article.source}
                         </span>
                         {article.publishedAt && (
                           <time
                             dateTime={article.publishedAt}
-                            className="text-gray-500"
-                            itemProp="datePublished"
+                            className="text-gray-400 text-xs"
                           >
                             {formatDate(article.publishedAt)}
                           </time>
@@ -277,26 +284,20 @@ export default function PressCarousel({
                       </div>
 
                       {/* Titre */}
-                      <h3
-                        className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-agri-green transition-colors"
-                        itemProp="headline"
-                      >
+                      <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors leading-tight">
                         {article.title}
                       </h3>
 
                       {/* Extrait */}
                       {article.excerpt && (
-                        <p
-                          className="text-gray-600 text-sm line-clamp-3"
-                          itemProp="description"
-                        >
+                        <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed">
                           {article.excerpt}
                         </p>
                       )}
 
                       {/* Lien */}
                       {article.articleUrl && article.articleUrl !== '#' && (
-                        <div className="mt-4 flex items-center text-agri-green font-medium text-sm group-hover:gap-2 transition-all">
+                        <div className="mt-4 flex items-center text-green-600 font-medium text-sm">
                           <span>Lire l&apos;article</span>
                           <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -314,7 +315,7 @@ export default function PressCarousel({
           {articles.length > visibleCount && (
             <button
               onClick={nextSlide}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-agri-green hover:shadow-xl transition-all duration-300 hidden md:flex"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-green-600 hover:shadow-xl transition-all duration-300 hidden md:flex"
               aria-label="Article suivant"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,7 +334,7 @@ export default function PressCarousel({
                 onClick={() => setCurrentIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentIndex
-                    ? 'bg-agri-green w-8'
+                    ? 'bg-green-600 w-8'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 aria-label={`Aller à la page ${index + 1}`}
@@ -350,7 +351,7 @@ export default function PressCarousel({
           </p>
           <a
             href="mailto:contact@agritrace.fr?subject=Demande presse Agritrace"
-            className="inline-flex items-center gap-2 bg-agri-green text-white px-6 py-3 rounded-lg font-medium hover:bg-agri-green-dark transition-colors"
+            className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
