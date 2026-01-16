@@ -5,6 +5,7 @@ import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import Services from '@/components/Services'
 import Testimonials from '@/components/Testimonials'
+import PressCarousel from '@/components/PressCarousel'
 import Pricing from '@/components/Pricing'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
@@ -28,6 +29,7 @@ export default function Home() {
       <Features />
       <Services />
       <Testimonials />
+      <PressCarousel />
       <Pricing onGetStarted={handleSignup} />
       <CTA onGetStarted={handleSignup} />
       <Footer />
