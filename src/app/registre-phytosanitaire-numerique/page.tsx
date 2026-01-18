@@ -251,7 +251,7 @@ export default function RegistrePhytosanitaireNumerique() {
                 Annuler
               </button>
               <a
-                href="https://app.agritrace.fr/signup"
+                href="https://www.app.agritrace.fr/signup"
                 className="flex-1 bg-agri-green text-white py-3 rounded-full font-medium text-center hover:bg-agri-green-dark"
               >
                 Continuer
