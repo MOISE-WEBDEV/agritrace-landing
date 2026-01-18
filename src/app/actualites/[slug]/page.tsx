@@ -37,6 +37,13 @@ async function getArticle(slug: string): Promise<PressArticle | null> {
   return articles.find(a => (a.slug || String(a.id)) === slug) || null
 }
 
+async function getRelatedArticles(currentId: string | number, type: string): Promise<PressArticle[]> {
+  const articles = await getArticles()
+  return articles
+    .filter(a => (a.slug || String(a.id)) !== String(currentId))
+    .slice(0, 3)
+}
+
 // Generer les pages statiques pour tous les articles
 export async function generateStaticParams() {
   const articles = await getArticles()
@@ -56,23 +63,38 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
+  // Titre SEO optimise selon le type
+  const seoTitle = article.type === 'press'
+    ? `${article.title} - Tracabilite agricole | Agritrace`
+    : `${article.title} - Registre phytosanitaire | Agritrace`
+
+  // Description SEO enrichie
+  const seoDescription = article.excerpt
+    ? `${article.excerpt.slice(0, 140)}... Decouvrez les actualites sur la tracabilite agricole et le registre phytosanitaire.`
+    : `Decouvrez cet article sur ${article.title}. Actualites tracabilite agricole, registre phytosanitaire numerique et reglementation 2027.`
+
   return {
-    title: `${article.title} | Actualites Agritrace`,
-    description: article.excerpt || `Decouvrez cet article sur ${article.title}`,
-    keywords: `${article.title}, agritrace, actualites, ${article.type === 'press' ? 'presse agricole' : 'tracabilite agricole'}`,
+    title: seoTitle,
+    description: seoDescription,
+    keywords: `${article.title}, tracabilite agricole, registre phytosanitaire, reglementation agricole, ${article.type === 'press' ? 'presse agricole, actualites reglementaires' : 'conseils agricoles, numerique agricole'}`,
     openGraph: {
       title: article.title,
-      description: article.excerpt,
+      description: article.excerpt || seoDescription,
       url: `https://www.agritrace.fr/actualites/${article.slug || article.id}`,
       type: 'article',
       publishedTime: article.publishedAt,
-      images: article.imageUrl ? [{ url: article.imageUrl }] : [],
+      authors: [article.source],
+      tags: ['tracabilite agricole', 'registre phytosanitaire', 'agriculture'],
+      images: article.imageUrl ? [{ url: article.imageUrl, alt: `Illustration : ${article.title}` }] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: article.title,
-      description: article.excerpt,
+      description: article.excerpt || seoDescription,
       images: article.imageUrl ? [article.imageUrl] : [],
+    },
+    alternates: {
+      canonical: `https://www.agritrace.fr/actualites/${article.slug || article.id}`,
     },
   }
 }
@@ -113,7 +135,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound()
   }
 
-  // Donnees structurees JSON-LD pour l'article
+  const relatedArticles = await getRelatedArticles(article.id, article.type)
+
+  // Donnees structurees JSON-LD enrichies
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -138,15 +162,52 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://www.agritrace.fr/actualites/${article.slug || article.id}`
-    }
+    },
+    about: [
+      { '@type': 'Thing', name: 'Tracabilite agricole' },
+      { '@type': 'Thing', name: 'Registre phytosanitaire' },
+      { '@type': 'Thing', name: 'Reglementation agricole' }
+    ],
+    keywords: 'tracabilite agricole, registre phytosanitaire, reglementation 2027'
+  }
+
+  // JSON-LD Breadcrumb
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Accueil',
+        item: 'https://www.agritrace.fr'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Actualites',
+        item: 'https://www.agritrace.fr/actualites'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: `https://www.agritrace.fr/actualites/${article.slug || article.id}`
+      }
+    ]
   }
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* JSON-LD */}
+      {/* JSON-LD Article */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* JSON-LD Breadcrumb */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       {/* Header */}
@@ -155,7 +216,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <Link href="/" className="flex items-center group">
             <img
               src="/logo.png"
-              alt="Agritrace"
+              alt="Agritrace - Logiciel de tracabilite agricole"
               className="h-16 w-auto transition-transform group-hover:scale-105"
             />
           </Link>
@@ -164,48 +225,62 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* Breadcrumb */}
       <nav className="max-w-4xl mx-auto px-4 py-4" aria-label="Fil d'ariane">
-        <ol className="flex items-center gap-2 text-sm text-gray-600 flex-wrap">
-          <li>
-            <Link href="/" className="hover:text-green-600">Accueil</Link>
+        <ol className="flex items-center gap-2 text-sm text-gray-600 flex-wrap" itemScope itemType="https://schema.org/BreadcrumbList">
+          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            <Link href="/" itemProp="item" className="hover:text-green-600">
+              <span itemProp="name">Accueil</span>
+            </Link>
+            <meta itemProp="position" content="1" />
           </li>
-          <li>/</li>
-          <li>
-            <Link href="/actualites" className="hover:text-green-600">Actualites</Link>
+          <li aria-hidden="true">/</li>
+          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            <Link href="/actualites" itemProp="item" className="hover:text-green-600">
+              <span itemProp="name">Actualites</span>
+            </Link>
+            <meta itemProp="position" content="2" />
           </li>
-          <li>/</li>
-          <li className="text-gray-900 font-medium truncate max-w-xs">{article.title}</li>
+          <li aria-hidden="true">/</li>
+          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            <span itemProp="name" className="text-gray-900 font-medium truncate max-w-xs block">{article.title}</span>
+            <meta itemProp="position" content="3" />
+          </li>
         </ol>
       </nav>
 
       {/* Article */}
-      <article className="max-w-4xl mx-auto px-4 py-8">
+      <article className="max-w-4xl mx-auto px-4 py-8" itemScope itemType="https://schema.org/NewsArticle">
+        <meta itemProp="datePublished" content={article.publishedAt} />
+        <meta itemProp="author" content={article.source} />
+
         <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
           {/* Image header */}
           {article.imageUrl && (
-            <div className="relative h-64 md:h-96 overflow-hidden">
+            <figure className="relative h-64 md:h-96 overflow-hidden">
               <img
                 src={article.imageUrl}
-                alt={article.title}
+                alt={`Illustration de l'article : ${article.title}`}
                 className="w-full h-full object-cover"
+                itemProp="image"
               />
               {/* Badge type */}
               <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold text-gray-700 shadow-sm">
                 {getTypeIcon(article.type)} {getTypeLabel(article.type)}
               </span>
-            </div>
+            </figure>
           )}
 
           {/* Contenu */}
           <div className="p-6 md:p-10">
             {/* Meta informations */}
             <div className="flex items-center gap-4 mb-6 text-sm flex-wrap">
-              <span className="font-semibold text-green-600 text-base">
+              <span className="font-semibold text-green-600 text-base" itemProp="publisher">
                 {article.source}
               </span>
               {article.publishedAt && (
                 <time
                   dateTime={article.publishedAt}
                   className="text-gray-500"
+                  itemProp="datePublished"
                 >
                   Publie le {formatDate(article.publishedAt)}
                 </time>
@@ -218,23 +293,66 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Titre H1 */}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight" itemProp="headline">
               {article.title}
             </h1>
 
             {/* Extrait en evidence */}
             {article.excerpt && (
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed border-l-4 border-green-500 pl-4 italic">
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed border-l-4 border-green-500 pl-4 italic" itemProp="description">
                 {article.excerpt}
               </p>
             )}
 
             {/* Contenu principal */}
             {article.content && (
-              <div className="prose prose-lg prose-green max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+              <div className="prose prose-lg prose-green max-w-none text-gray-700 leading-relaxed whitespace-pre-line" itemProp="articleBody">
                 {article.content}
               </div>
             )}
+
+            {/* Encart reglementation */}
+            <aside className="mt-10 bg-amber-50 border border-amber-200 rounded-xl p-6">
+              <h2 className="text-lg font-bold text-amber-900 mb-3 flex items-center gap-2">
+                <span>⚖️</span>
+                Ce que dit la reglementation
+              </h2>
+              <p className="text-amber-800 text-sm leading-relaxed">
+                Depuis 2027, le <strong>registre phytosanitaire numerique</strong> devient obligatoire pour toutes les exploitations agricoles.
+                Cette obligation s&apos;inscrit dans le cadre de la tracabilite des traitements phytosanitaires
+                et vise a renforcer la transparence et la conformite reglementaire du secteur agricole.
+              </p>
+              <Link
+                href="/registre-phytosanitaire-numerique"
+                className="inline-flex items-center gap-1 text-amber-700 font-medium text-sm mt-3 hover:text-amber-900 transition-colors"
+              >
+                En savoir plus sur l&apos;obligation 2027
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </aside>
+
+            {/* Encart Agritrace */}
+            <aside className="mt-6 bg-green-50 border border-green-200 rounded-xl p-6">
+              <h2 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                <span>✅</span>
+                Comment Agritrace simplifie cette obligation
+              </h2>
+              <p className="text-green-800 text-sm leading-relaxed">
+                Agritrace genere automatiquement votre registre phytosanitaire a partir de vos interventions.
+                Chaque traitement enregistre est trace, horodate et exportable en PDF ou CSV pour les controles.
+              </p>
+              <Link
+                href="/#fonctionnalites"
+                className="inline-flex items-center gap-1 text-green-700 font-medium text-sm mt-3 hover:text-green-900 transition-colors"
+              >
+                Decouvrir toutes les fonctionnalites Agritrace
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </aside>
 
             {/* Lien vers source originale */}
             {article.articleUrl && article.articleUrl !== '#' && (
@@ -255,8 +373,38 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
+        {/* Articles lies - Maillage interne */}
+        {relatedArticles.length > 0 && (
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Articles similaires sur la tracabilite agricole
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {relatedArticles.map((related) => (
+                <Link
+                  key={related.id}
+                  href={`/actualites/${related.slug || related.id}`}
+                  className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <span className="text-xs font-medium text-green-600 mb-2 block">
+                    {getTypeIcon(related.type)} {getTypeLabel(related.type)}
+                  </span>
+                  <h3 className="font-semibold text-gray-900 line-clamp-2 hover:text-green-600 transition-colors">
+                    {related.title}
+                  </h3>
+                  {related.publishedAt && (
+                    <time className="text-xs text-gray-400 mt-2 block">
+                      {formatDate(related.publishedAt)}
+                    </time>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Navigation */}
-        <div className="mt-8 flex justify-between items-center">
+        <nav className="mt-8 flex justify-between items-center">
           <Link
             href="/actualites"
             className="inline-flex items-center gap-2 text-green-600 font-medium hover:text-green-700 transition-colors"
@@ -264,7 +412,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            <span>Tous les articles</span>
+            <span>Toutes les actualites agricoles</span>
           </Link>
 
           <Link
@@ -273,34 +421,34 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           >
             <span>Retour a l&apos;accueil</span>
           </Link>
-        </div>
+        </nav>
 
         {/* CTA */}
-        <div className="mt-12 bg-green-50 rounded-2xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Decouvrez Agritrace
+        <aside className="mt-12 bg-green-600 rounded-2xl p-8 text-center text-white">
+          <h2 className="text-2xl font-bold mb-4">
+            Passez au registre phytosanitaire numerique
           </h2>
-          <p className="text-gray-600 mb-6 max-w-xl mx-auto">
-            Registre phytosanitaire numerique automatique, conforme a la reglementation 2027.
-            Essayez gratuitement pendant 30 jours.
+          <p className="text-green-100 mb-6 max-w-xl mx-auto">
+            Conforme a la reglementation 2027. Vos traitements sont automatiquement traces.
+            Essai gratuit 30 jours, sans engagement.
           </p>
           <a
             href="https://www.app.agritrace.fr/signup"
-            className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-green-600 px-8 py-3 rounded-lg font-medium hover:bg-green-50 transition-colors"
           >
-            Essayer gratuitement
+            Essayer Agritrace gratuitement
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </a>
-        </div>
+        </aside>
       </article>
 
-      {/* Footer simple */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-gray-400">
-            &copy; 2025 Agritrace. Tous droits reserves.
+            &copy; 2025 Agritrace - Logiciel de tracabilite agricole. Tous droits reserves.
           </p>
         </div>
       </footer>
