@@ -11,9 +11,12 @@ export default function RegistrePhytosanitaireNumerique() {
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2 text-agri-green hover:text-agri-green-dark">
-            <span className="text-2xl">🌾</span>
-            <span className="font-bold text-xl">Agritrace</span>
+          <Link href="/" className="flex items-center group">
+            <img
+              src="/logo.png"
+              alt="Agritrace"
+              className="h-16 w-auto transition-transform group-hover:scale-105"
+            />
           </Link>
           <button
             onClick={() => setShowSignupModal(true)}
