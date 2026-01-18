@@ -37,6 +37,9 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
             <a href="#temoignages" className="text-gray-600 hover:text-agri-green transition-colors">
               Témoignages
             </a>
+            <a href="/actualites" className="text-gray-600 hover:text-agri-green transition-colors">
+              Actualités
+            </a>
           </div>
 
           {/* CTA Buttons */}
@@ -79,6 +82,9 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
               </a>
               <a href="#temoignages" className="text-gray-600 hover:text-agri-green">
                 Témoignages
+              </a>
+              <a href="/actualites" className="text-gray-600 hover:text-agri-green">
+                Actualités
               </a>
               <hr />
               <button
