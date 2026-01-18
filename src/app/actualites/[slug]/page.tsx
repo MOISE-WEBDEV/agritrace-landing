@@ -311,49 +311,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
-            {/* Encart reglementation */}
-            <aside className="mt-10 bg-amber-50 border border-amber-200 rounded-xl p-6">
-              <h2 className="text-lg font-bold text-amber-900 mb-3 flex items-center gap-2">
-                <span>⚖️</span>
-                Ce que dit la reglementation
-              </h2>
-              <p className="text-amber-800 text-sm leading-relaxed">
-                Depuis 2027, le <strong>registre phytosanitaire numerique</strong> devient obligatoire pour toutes les exploitations agricoles.
-                Cette obligation s&apos;inscrit dans le cadre de la tracabilite des traitements phytosanitaires
-                et vise a renforcer la transparence et la conformite reglementaire du secteur agricole.
-              </p>
-              <Link
-                href="/registre-phytosanitaire-numerique"
-                className="inline-flex items-center gap-1 text-amber-700 font-medium text-sm mt-3 hover:text-amber-900 transition-colors"
-              >
-                En savoir plus sur l&apos;obligation 2027
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </aside>
-
-            {/* Encart Agritrace */}
-            <aside className="mt-6 bg-green-50 border border-green-200 rounded-xl p-6">
-              <h2 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
-                <span>✅</span>
-                Comment Agritrace simplifie cette obligation
-              </h2>
-              <p className="text-green-800 text-sm leading-relaxed">
-                Agritrace genere automatiquement votre registre phytosanitaire a partir de vos interventions.
-                Chaque traitement enregistre est trace, horodate et exportable en PDF ou CSV pour les controles.
-              </p>
-              <Link
-                href="/#fonctionnalites"
-                className="inline-flex items-center gap-1 text-green-700 font-medium text-sm mt-3 hover:text-green-900 transition-colors"
-              >
-                Decouvrir toutes les fonctionnalites Agritrace
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </aside>
-
             {/* Lien vers source originale */}
             {article.articleUrl && article.articleUrl !== '#' && (
               <div className="mt-10 pt-6 border-t border-gray-200">
@@ -429,7 +386,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             Passez au registre phytosanitaire numerique
           </h2>
           <p className="text-green-100 mb-6 max-w-xl mx-auto">
-            Conforme a la reglementation 2027. Vos traitements sont automatiquement traces.
+            Anticipez les obligations reglementaires a venir. Vos traitements sont automatiquement traces.
             Essai gratuit 30 jours, sans engagement.
           </p>
           <a
