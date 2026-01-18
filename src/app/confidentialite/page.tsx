@@ -124,7 +124,7 @@ export default function Confidentialite() {
               <li><strong>Droit de limitation</strong> : limiter le traitement de vos données</li>
             </ul>
             <p className="text-gray-600 leading-relaxed mt-4">
-              Pour exercer ces droits, contactez-nous à : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a>
+              Pour exercer ces droits, contactez-nous à : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
             </p>
           </section>
 
@@ -140,7 +140,7 @@ export default function Confidentialite() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">10. Contact</h2>
             <p className="text-gray-600 leading-relaxed">
               Pour toute question relative à cette politique de confidentialité :<br /><br />
-              Email : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a><br />
+              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a><br />
               Vous pouvez également déposer une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-agri-green hover:underline">www.cnil.fr</a>
             </p>
           </section>

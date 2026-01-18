@@ -224,7 +224,7 @@ export default function CGU() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">12. Contact</h2>
             <p className="text-gray-600 leading-relaxed">
               Pour toute question concernant ces CGU :<br /><br />
-              Email : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a>
+              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
             </p>
           </section>
         </div>

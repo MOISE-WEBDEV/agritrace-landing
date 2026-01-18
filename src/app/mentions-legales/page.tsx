@@ -23,7 +23,7 @@ export default function MentionsLegales() {
               Le site <strong>www.agritrace.fr</strong> est édité par :<br /><br />
               <strong>Agritrace</strong><br />
               Adresse : 1 route du Rond d&apos;Orléans, 02300 Sinceny<br />
-              Email : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a>
+              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
             </p>
           </section>
 
@@ -31,7 +31,7 @@ export default function MentionsLegales() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">2. Directeur de la publication</h2>
             <p className="text-gray-600 leading-relaxed">
               Moïse Goguillon<br />
-              Email : <a href="mailto:service.client@agritrace.com" className="text-agri-green hover:underline">service.client@agritrace.com</a>
+              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
             </p>
           </section>
 
