@@ -21,6 +21,7 @@ const features: Feature[] = [
     icon: '🌱',
     title: 'Suivi des Cultures',
     description: 'Enregistrez vos cycles culturaux, variétés et suivez l\'évolution de vos cultures en temps réel.',
+    video: '/videos/suivi-cultures.mp4',
   },
   {
     icon: '💊',
