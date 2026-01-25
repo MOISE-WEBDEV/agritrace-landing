@@ -77,6 +77,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: seoTitle,
     description: seoDescription,
     keywords: `${article.title}, tracabilite agricole, registre phytosanitaire, reglementation agricole, ${article.type === 'press' ? 'presse agricole, actualites reglementaires' : 'conseils agricoles, numerique agricole'}`,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt || seoDescription,

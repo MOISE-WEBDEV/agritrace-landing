@@ -4,6 +4,17 @@ export const metadata: Metadata = {
   title: 'FAQ - Questions Fréquentes | Agritrace',
   description: 'Retrouvez les réponses aux questions fréquentes sur Agritrace : inscription, fonctionnalités, tarifs, registre phytosanitaire, sécurité des données et support.',
   keywords: 'FAQ agritrace, questions fréquentes, aide agritrace, support agricole, registre phytosanitaire aide',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'FAQ - Questions Fréquentes | Agritrace',
     description: 'Toutes les réponses à vos questions sur Agritrace, le logiciel de traçabilité agricole.',

@@ -6,6 +6,20 @@ export const metadata: Metadata = {
   description: 'Registre phytosanitaire numerique automatique. Conforme reglementation 2027. Gerez vos parcelles, cultures et traitements phyto. Export PDF/CSV. Essai 30 jours.',
   keywords: 'registre phytosanitaire numerique, registre phyto, tracabilite agricole, logiciel agricole, gestion parcelles, traitement phytosanitaire, reglementation 2027, PAC, E-Phy',
   metadataBase: new URL('https://www.agritrace.fr'),
+  alternates: {
+    canonical: 'https://www.agritrace.fr',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'Agritrace - Registre Phytosanitaire Numerique',
     description: 'Registre phyto automatique conforme 2027. Vos traitements sont traces automatiquement. Essai 30 jours.',
