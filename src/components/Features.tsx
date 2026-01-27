@@ -58,10 +58,10 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Tout ce dont vous avez besoin
+            Fonctionnalites pour gerer votre exploitation agricole
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Une plateforme complète pour gérer votre exploitation agricole au quotidien
+            Tracabilite agricole, registre phytosanitaire numerique, gestion parcellaire et suivi des cultures : tous les outils pour piloter votre ferme.
           </p>
         </div>
 

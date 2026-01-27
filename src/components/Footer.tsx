@@ -23,24 +23,25 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Produit</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#fonctionnalites" className="hover:text-white transition-colors">Fonctionnalités</a></li>
+              <li><a href="#fonctionnalites" className="hover:text-white transition-colors">Fonctionnalites</a></li>
+              <li><Link href="/registre-phytosanitaire-numerique" className="hover:text-white transition-colors">Registre phytosanitaire</Link></li>
               <li><a href="#tarifs" className="hover:text-white transition-colors">Tarifs</a></li>
-              <li><Link href="/temoignages" className="hover:text-white transition-colors">Témoignages</Link></li>
+              <li><Link href="/temoignages" className="hover:text-white transition-colors">Temoignages</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Ressources */}
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="font-semibold mb-4">Ressources</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
+              <li><Link href="/actualites" className="hover:text-white transition-colors">Actualites agricoles</Link></li>
               <li><a href="mailto:service.client@agritrace.fr" className="hover:text-white transition-colors">Contact</a></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">Centre d&apos;aide</Link></li>
-              <li><a href="mailto:service.client@agritrace.fr" className="hover:text-white transition-colors">Support technique</a></li>
             </ul>
           </div>
 
-          {/* Légal */}
+          {/* Legal */}
           <div>
             <h4 className="font-semibold mb-4">Légal</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
