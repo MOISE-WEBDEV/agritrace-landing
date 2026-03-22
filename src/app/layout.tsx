@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ChatWidget from '@/components/ChatWidget'
 
 // Schema.org JSON-LD pour Organization
 const organizationSchema = {
@@ -150,7 +151,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ChatWidget />
+      </body>
     </html>
   )
 }
