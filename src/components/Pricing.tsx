@@ -6,36 +6,54 @@ const plans = [
   {
     name: 'Essai Gratuit',
     price: '0€',
-    period: 'pendant 1 mois',
+    period: 'pendant 30 jours',
     description: 'Testez toutes les fonctionnalités',
     features: [
       'Accès complet pendant 30 jours',
       'Parcelles illimitées',
       'Cartographie interactive',
-      'Suivi des cultures',
-      'Support par email',
+      'Registre phytosanitaire',
+      'Toutes les fonctionnalités Pro',
       'Sans engagement',
     ],
     cta: 'Commencer l\'essai gratuit',
     highlighted: false,
   },
   {
+    name: 'Essentiel',
+    price: '17,90€',
+    period: '/mois',
+    description: 'L\'essentiel pour votre exploitation',
+    features: [
+      'Cartographie des parcelles',
+      'Registre phytosanitaire',
+      'Gestion des tâches d\'intervention',
+      'Support informatique',
+    ],
+    cta: 'Choisir Essentiel',
+    highlighted: false,
+    plan: 'essential',
+    yearlyPrice: '179€/an',
+  },
+  {
     name: 'Pro',
     price: '29€',
     period: '/mois',
-    description: 'Pour les exploitations en croissance',
+    description: 'Toutes les fonctionnalités pour votre exploitation',
     features: [
-      'Parcelles illimitées',
-      'Toutes les fonctionnalités',
+      'Tout le plan Essentiel',
       'Gestion d\'équipe (5 employés)',
-      'Météo avancée',
-      'Historique illimité',
+      'Météo avancée & stades BBCH',
+      'Stock produits phytosanitaires',
+      'Suivi technicien',
+      'Gestion équipements',
       'Support prioritaire',
       'Export PDF des rapports',
     ],
     cta: 'Choisir Pro',
     highlighted: true,
     plan: 'pro',
+    yearlyPrice: '290€/an',
   },
   {
     name: 'Enterprise',
@@ -70,7 +88,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {plans.map((plan, index) => (
             <div
               key={index}
@@ -99,6 +117,11 @@ export default function Pricing({ onGetStarted }: PricingProps) {
                 <span className={plan.highlighted ? 'text-white/80' : 'text-gray-500'}>
                   {plan.period}
                 </span>
+                {plan.yearlyPrice && (
+                  <div className={`text-xs mt-1 ${plan.highlighted ? 'text-white/60' : 'text-gray-400'}`}>
+                    ou {plan.yearlyPrice} (économisez 2 mois)
+                  </div>
+                )}
               </div>
               <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, idx) => (

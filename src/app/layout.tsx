@@ -42,13 +42,24 @@ const softwareApplicationSchema = {
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'Agricultural Management Software',
   operatingSystem: 'Web Browser',
-  offers: {
-    '@type': 'Offer',
-    price: '29',
-    priceCurrency: 'EUR',
-    priceValidUntil: '2027-12-31',
-    availability: 'https://schema.org/InStock',
-  },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Essentiel',
+      price: '17.90',
+      priceCurrency: 'EUR',
+      priceValidUntil: '2027-12-31',
+      availability: 'https://schema.org/InStock',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro',
+      price: '29',
+      priceCurrency: 'EUR',
+      priceValidUntil: '2027-12-31',
+      availability: 'https://schema.org/InStock',
+    },
+  ],
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.8',
