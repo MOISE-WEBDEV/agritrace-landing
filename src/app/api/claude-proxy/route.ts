@@ -3,6 +3,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 
+// Augmenter le timeout Vercel (max 60s sur Hobby)
+export const maxDuration = 30
+
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages'
 const MODEL = 'claude-haiku-4-5-20251001'
 
@@ -104,8 +107,9 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      console.error(`Claude API error: ${response.status}`)
-      return NextResponse.json({ error: 'Erreur du service' }, { status: 502 })
+      const errorBody = await response.text()
+      console.error(`Claude API error: ${response.status} - ${errorBody}`)
+      return NextResponse.json({ error: `Erreur API (${response.status})`, details: errorBody.substring(0, 200) }, { status: 502 })
     }
 
     const data = await response.json()
