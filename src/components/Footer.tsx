@@ -95,6 +95,10 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      {/* Piège à robots : lien invisible, interdit aux humains comme aux moteurs (robots.txt de
+          l'application) ; seul un aspirateur de site le suit, et son adresse est alors bloquée. */}
+      <a href="https://www.app.agritrace.fr/catalogue-export" rel="nofollow" aria-hidden="true" tabIndex={-1}
+         style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>Catalogue complet</a>
     </footer>
   )
 }
