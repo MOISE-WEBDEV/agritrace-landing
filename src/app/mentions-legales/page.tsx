@@ -17,6 +17,18 @@ export default function MentionsLegales() {
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Mentions Légales</h1>
 
         <div className="bg-white rounded-lg shadow-sm p-8 space-y-8">
+          {/*
+            À COMPLÉTER — mentions obligatoires (art. 6 III LCEN) encore absentes.
+            Ces informations ne peuvent pas être déduites du code : elles doivent être
+            fournies par l'éditeur puis validées juridiquement avant mise en ligne.
+              - Forme juridique et dénomination sociale exactes (SAS, SARL, EI...)
+              - Numéro SIREN / SIRET
+              - Numéro d'inscription au RCS et ville du greffe
+              - Montant du capital social (si société)
+              - Numéro de TVA intracommunautaire (si assujetti)
+              - Numéro de téléphone
+              - Coordonnées du médiateur de la consommation (obligatoire en B2C)
+          */}
           <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">1. Éditeur du site</h2>
             <p className="text-gray-600 leading-relaxed">
@@ -47,6 +59,15 @@ export default function MentionsLegales() {
               Hébergé par Heroku (Salesforce)<br />
               415 Mission Street, Suite 300<br />
               San Francisco, CA 94105, États-Unis
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Les adresses ci-dessus sont celles des sièges sociaux de nos hébergeurs.
+              L&apos;application et la base de données contenant vos données d&apos;exploitation
+              sont déployées dans la région <strong>Europe</strong> de Heroku. Le détail des
+              prestataires auxquels nous faisons appel figure dans notre{' '}
+              <Link href="/confidentialite" className="text-agri-green hover:underline">
+                politique de confidentialité
+              </Link>.
             </p>
           </section>
 

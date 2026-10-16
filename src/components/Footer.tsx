@@ -11,11 +11,12 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="Agritrace"
-                className="h-56 w-auto"
+                className="h-24 w-auto"
               />
             </a>
             <p className="text-gray-400 text-sm">
-              La plateforme de traçabilité agricole qui simplifie la gestion de votre exploitation.
+              La plateforme qui réunit la gestion, la traçabilité et la collaboration
+              sur votre exploitation agricole.
             </p>
           </div>
 
@@ -23,10 +24,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Produit</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#fonctionnalites" className="hover:text-white transition-colors">Fonctionnalites</a></li>
+              <li><a href="/#fonctionnalites" className="hover:text-white transition-colors">Fonctionnalités</a></li>
               <li><Link href="/registre-phytosanitaire-numerique" className="hover:text-white transition-colors">Registre phytosanitaire</Link></li>
-              <li><a href="#tarifs" className="hover:text-white transition-colors">Tarifs</a></li>
-              <li><Link href="/temoignages" className="hover:text-white transition-colors">Temoignages</Link></li>
+              <li><a href="/#tarifs" className="hover:text-white transition-colors">Tarifs</a></li>
+              <li><Link href="/temoignages" className="hover:text-white transition-colors">Témoignages</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
             </ul>
           </div>
@@ -35,7 +36,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Ressources</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><Link href="/actualites" className="hover:text-white transition-colors">Actualites agricoles</Link></li>
+              <li><Link href="/actualites" className="hover:text-white transition-colors">Actualités agricoles</Link></li>
               <li><a href="mailto:service.client@agritrace.fr" className="hover:text-white transition-colors">Contact</a></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">Centre d&apos;aide</Link></li>
             </ul>
@@ -55,7 +56,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Agritrace. Tous droits réservés.
+            © 2026 Agritrace. Tous droits réservés.
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <a

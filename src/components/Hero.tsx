@@ -17,13 +17,18 @@ export default function Hero({ onGetStarted }: HeroProps) {
               Logiciel de <span className="text-agri-green">Traçabilité Agricole</span>
             </h1>
 
+            {/* Le mot-cle est conserve dans ce H2 et sert desormais de lien vers
+                la page dediee : le maillage interne renforce la page registre. */}
             <h2 className="text-xl md:text-2xl font-semibold text-gray-700 mb-4 animate-fade-in-up delay-150">
-              Registre Phytosanitaire Numérique Automatique
+              <a href="/registre-phytosanitaire-numerique" className="hover:text-agri-green transition-colors">
+                Registre Phytosanitaire Numérique Automatique
+              </a>
             </h2>
 
             <p className="text-lg md:text-xl text-gray-600 mb-8 animate-fade-in-up delay-200">
-              Gérez vos parcelles, suivez vos cultures et tenez votre registre phytosanitaire sans effort.
-              Chaque traitement enregistré est automatiquement tracé. Conforme réglementation 2027.
+              Gérez vos parcelles, suivez vos cultures et coordonnez votre équipe au même endroit.
+              Chaque traitement que vous validez est enregistré automatiquement dans votre registre,
+              sans ressaisie.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in-up delay-300">
@@ -77,8 +82,8 @@ export default function Hero({ onGetStarted }: HeroProps) {
                     <p className="text-xs text-gray-500">Interventions</p>
                   </div>
                   <div className="bg-white rounded-lg p-3 text-center">
-                    <p className="text-2xl font-bold text-agri-green">100%</p>
-                    <p className="text-xs text-gray-500">Traçabilité</p>
+                    <p className="text-2xl font-bold text-agri-green">6</p>
+                    <p className="text-xs text-gray-500">Cultures</p>
                   </div>
                 </div>
               </div>

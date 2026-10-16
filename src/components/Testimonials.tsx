@@ -78,7 +78,7 @@ export default function Testimonials() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {reviews.slice(0, 6).map((review) => (
+          {reviews.slice(0, 3).map((review) => (
             <div
               key={review.id}
               className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
@@ -109,6 +109,19 @@ export default function Testimonials() {
             </div>
           ))}
         </div>
+
+        {/* N'afficher que 3 avis ici et renvoyer vers /temoignages : evite de
+            dupliquer le contenu de la page avis sur la page d'accueil. */}
+        {reviews.length > 3 && (
+          <div className="text-center mt-10">
+            <a
+              href="/temoignages"
+              className="inline-block border-2 border-agri-green text-agri-green hover:bg-agri-green hover:text-white px-6 py-3 rounded-full font-medium transition-all"
+            >
+              Voir tous les avis
+            </a>
+          </div>
+        )}
       </div>
     </section>
   )

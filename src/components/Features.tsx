@@ -26,9 +26,9 @@ const features: Feature[] = [
   {
     icon: '💊',
     title: 'Registre Phytosanitaire Numérique',
-    description: 'Registre phyto automatique : chaque traitement enregistré est automatiquement tracé dans votre registre. Conforme réglementation 2027, accès base E-Phy officielle, export PDF/CSV.',
+    description: 'Chaque traitement que vous validez crée automatiquement la ligne correspondante dans votre registre : produit, numéro AMM, dose, parcelle et opérateur. Accès à la base officielle E-Phy, export Excel et CSV.',
     video: '/videos/phyto-register-demo.mp4',
-    badge: 'Obligatoire 2027',
+    badge: 'Automatique',
   },
   {
     icon: '🌤️',
@@ -45,7 +45,7 @@ const features: Feature[] = [
   {
     icon: '📊',
     title: 'Historique Complet',
-    description: 'Accédez à l\'historique de toutes vos activités pour une traçabilité parfaite.',
+    description: 'Retrouvez l\'historique de toutes vos interventions, parcelle par parcelle et campagne après campagne.',
     video: '/videos/history-demo-compressed.mp4',
   },
 ]
@@ -58,10 +58,14 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Fonctionnalites pour gerer votre exploitation agricole
+            Fonctionnalités pour gérer votre exploitation agricole
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Tracabilite agricole, registre phytosanitaire numerique, gestion parcellaire et suivi des cultures : tous les outils pour piloter votre ferme.
+            Gestion parcellaire, suivi des cultures, traçabilité des interventions et{' '}
+            <a href="/registre-phytosanitaire-numerique" className="text-agri-green hover:underline">
+              registre phytosanitaire numérique
+            </a>{' '}
+            : tous vos outils au même endroit.
           </p>
         </div>
 

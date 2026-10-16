@@ -49,7 +49,7 @@ const faqCategories = [
     items: [
       {
         question: "Comment ajouter une parcelle ?",
-        answer: "Depuis la carte interactive, cliquez sur 'Ajouter une parcelle' puis dessinez les contours de votre parcelle directement sur la carte. Vous pouvez également importer vos parcelles depuis un fichier GeoJSON ou les dessiner manuellement."
+        answer: "Depuis la carte interactive, cliquez sur 'Ajouter une parcelle' puis dessinez les contours de votre parcelle directement sur la carte. La surface est calculée automatiquement et vous pouvez renseigner la référence cadastrale. Vos parcelles peuvent ensuite être exportées au format GeoJSON."
       },
       {
         question: "Comment fonctionne la traçabilité ?",
@@ -57,7 +57,7 @@ const faqCategories = [
       },
       {
         question: "Puis-je gérer mes stocks de produits phytosanitaires ?",
-        answer: "Oui, Agritrace intègre un module de gestion des stocks. Vous pouvez suivre vos entrées/sorties de produits, recevoir des alertes de stock bas et accéder aux fiches de sécurité des produits."
+        answer: "Oui, avec le plan Pro. Vous suivez vos entrées et vos sorties de produits, vous recevez des alertes lorsqu'un stock devient bas, et les produits sont rattachés à la base officielle E-Phy avec leur numéro AMM et leurs substances actives."
       },
       {
         question: "Comment inviter un technicien à suivre mon exploitation ?",
@@ -66,11 +66,40 @@ const faqCategories = [
     ]
   },
   {
+    title: 'Registre phytosanitaire',
+    items: [
+      {
+        question: "Comment mon registre phytosanitaire se remplit-il ?",
+        answer: "Vous n'avez rien à ressaisir. Lorsque vous créez une tâche de traitement puis que vous la validez (vous-même ou votre salarié depuis le champ), Agritrace crée automatiquement la ligne correspondante dans votre registre, pour chaque parcelle concernée."
+      },
+      {
+        question: "Quelles informations figurent dans le registre exporté ?",
+        answer: "La date et l'heure, la parcelle, sa référence cadastrale, ses coordonnées GPS, la surface traitée, la culture et la variété, le produit avec son numéro AMM et ses substances actives, la dose et la quantité totale, la cible, le stade de la culture, l'opérateur et le décideur avec leurs numéros Certiphyto, le matériel utilisé, les conditions météo et vos observations. Les produits appliqués dans une même bouillie sont regroupés sous un numéro d'opération commun."
+      },
+      {
+        question: "Sous quel format puis-je exporter mon registre ?",
+        answer: "Au format Excel (XLSX) ou CSV, au choix. Vous filtrez par année ou par période. Un second export, dit registre complet d'exploitation, reprend toutes vos opérations : semis, travail du sol, fertilisation, irrigation, récolte, en plus des traitements."
+      },
+      {
+        question: "Agritrace garantit-il la conformité de mon registre ?",
+        answer: "Non, et aucun logiciel ne peut le garantir. Agritrace enregistre et met en forme les informations que vous saisissez. La conformité de votre registre dépend de l'exactitude de ces données et du respect des règles d'usage des produits. Relisez votre registre avant tout contrôle ou audit, et rapprochez-vous de votre chambre d'agriculture ou de votre organisme certificateur en cas de doute."
+      },
+      {
+        question: "Agritrace vérifie-t-il que mon traitement est autorisé ?",
+        answer: "Non. Agritrace vous donne accès à la base officielle E-Phy pour retrouver un produit, son numéro AMM et ses substances actives, mais il ne contrôle ni la dose, ni l'autorisation du produit sur votre culture, ni les délais avant récolte. Vérifiez toujours l'étiquette du produit."
+      },
+      {
+        question: "Un traitement que je n'ai pas saisi apparaît-il dans mon registre ?",
+        answer: "Non. Seules les interventions enregistrées dans Agritrace figurent dans le registre. Si un traitement a été réalisé sans être saisi, il n'y apparaîtra pas."
+      }
+    ]
+  },
+  {
     title: 'Abonnement et facturation',
     items: [
       {
         question: "Quels sont les tarifs ?",
-        answer: "Nous proposons un abonnement Pro à 29€/mois (ou 290€/an, soit 2 mois offerts). Ce tarif inclut toutes les fonctionnalités, un nombre illimité de parcelles et le support client."
+        answer: "Deux abonnements sont proposés. Le plan Essentiel à 17,90 €/mois (ou 179 €/an) comprend la cartographie des parcelles, le registre phytosanitaire, la gestion des tâches d'intervention et le support. Le plan Pro à 29 €/mois (ou 290 €/an) ajoute la gestion d'équipe, la météo et les stades de culture, le stock de produits, le suivi par votre technicien et la gestion du matériel. Les grandes structures peuvent demander un devis pour le plan Enterprise. Le nombre de parcelles n'est pas limité."
       },
       {
         question: "Comment payer mon abonnement ?",
@@ -91,7 +120,7 @@ const faqCategories = [
     items: [
       {
         question: "Mes données sont-elles sécurisées ?",
-        answer: "Oui, la sécurité est notre priorité. Vos données sont chiffrées en transit (HTTPS) et au repos. Nos serveurs sont hébergés en Europe et nous effectuons des sauvegardes quotidiennes."
+        answer: "Vos données circulent en HTTPS, vos mots de passe sont chiffrés et l'accès à votre compte est protégé. Nos serveurs applicatifs sont hébergés en Europe et vos données font l'objet de sauvegardes régulières. Le détail des prestataires auxquels nous faisons appel figure dans notre politique de confidentialité."
       },
       {
         question: "Puis-je exporter mes données ?",
@@ -209,9 +238,12 @@ export default function FAQ() {
           </a>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-wrap justify-center gap-6 text-center">
           <Link href="/" className="text-agri-green hover:text-agri-green-dark font-medium">
             ← Retour à l&apos;accueil
+          </Link>
+          <Link href="/registre-phytosanitaire-numerique" className="text-agri-green hover:text-agri-green-dark font-medium">
+            Le registre phytosanitaire numérique →
           </Link>
         </div>
       </div>

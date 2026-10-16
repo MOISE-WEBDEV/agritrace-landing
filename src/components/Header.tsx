@@ -28,14 +28,16 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
             <a href="#fonctionnalites" className="text-gray-600 hover:text-agri-green transition-colors">
               Fonctionnalités
             </a>
+            {/* Page la plus strategique pour l'acquisition : elle doit figurer
+                dans la navigation principale, pas seulement dans le pied de page. */}
+            <a href="/registre-phytosanitaire-numerique" className="text-gray-600 hover:text-agri-green transition-colors">
+              Registre phytosanitaire
+            </a>
             <a href="#services" className="text-gray-600 hover:text-agri-green transition-colors">
               Services
             </a>
             <a href="#tarifs" className="text-gray-600 hover:text-agri-green transition-colors">
               Tarifs
-            </a>
-            <a href="#temoignages" className="text-gray-600 hover:text-agri-green transition-colors">
-              Témoignages
             </a>
             <a href="/actualites" className="text-gray-600 hover:text-agri-green transition-colors">
               Actualités
@@ -74,14 +76,14 @@ export default function Header({ onSignup, onLogin }: HeaderProps) {
               <a href="#fonctionnalites" className="text-gray-600 hover:text-agri-green">
                 Fonctionnalités
               </a>
+              <a href="/registre-phytosanitaire-numerique" className="text-gray-600 hover:text-agri-green">
+                Registre phytosanitaire
+              </a>
               <a href="#services" className="text-gray-600 hover:text-agri-green">
                 Services
               </a>
               <a href="#tarifs" className="text-gray-600 hover:text-agri-green">
                 Tarifs
-              </a>
-              <a href="#temoignages" className="text-gray-600 hover:text-agri-green">
-                Témoignages
               </a>
               <a href="/actualites" className="text-gray-600 hover:text-agri-green">
                 Actualités

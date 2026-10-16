@@ -10,8 +10,8 @@ export default function CTA({ onGetStarted }: CTAProps) {
           Prêt à simplifier la gestion de votre exploitation ?
         </h2>
         <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-          Rejoignez des centaines d'agriculteurs qui ont déjà adopté Agritrace
-          pour gérer leurs parcelles et assurer leur traçabilité.
+          Créez votre compte et testez Agritrace sur vos propres parcelles pendant 30 jours.
+          Vous pouvez arrêter à tout moment.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
@@ -28,7 +28,7 @@ export default function CTA({ onGetStarted }: CTAProps) {
           </a>
         </div>
         <p className="mt-6 text-white/70 text-sm">
-          Aucune carte bancaire requise • Démarrez en moins de 2 minutes
+          Aucune carte bancaire requise • Inscription en quelques minutes
         </p>
       </div>
     </section>

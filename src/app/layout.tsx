@@ -15,7 +15,7 @@ const organizationSchema = {
     width: 512,
     height: 512,
   },
-  description: 'Agritrace est une plateforme de tracabilite agricole et de gestion parcellaire pour les exploitations agricoles francaises.',
+  description: 'Agritrace est une plateforme de gestion, de traçabilité et de collaboration agricole pour les exploitations agricoles françaises.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'FR',
@@ -60,22 +60,22 @@ const softwareApplicationSchema = {
       availability: 'https://schema.org/InStock',
     },
   ],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    ratingCount: '50',
-    bestRating: '5',
-    worstRating: '1',
-  },
-  description: 'Logiciel de tracabilite agricole et registre phytosanitaire numerique automatique. Gestion des parcelles, suivi des cultures, registre phyto conforme reglementation 2027.',
+  // NOTE: aucun `aggregateRating` n'est declare ici.
+  // Les avis sont collectes et moderes via /api/v1/reviews/approved et affiches
+  // sur /temoignages. Ne reintroduire un aggregateRating que s'il est calcule
+  // dynamiquement a partir des avis reellement approuves (regles Google sur les
+  // extraits enrichis : une note codee en dur expose a une action manuelle).
+  description: 'Logiciel de gestion agricole et registre phytosanitaire numérique automatique. Gestion des parcelles, suivi des cultures, coordination de l\'équipe et traçabilité des interventions.',
   featureList: [
-    'Registre phytosanitaire numerique automatique',
+    'Registre phytosanitaire numérique automatique',
     'Gestion des parcelles avec cartographie interactive',
-    'Suivi des cultures et interventions',
-    'Base de donnees E-Phy officielle',
-    'Export PDF et CSV',
+    'Suivi des cultures et des interventions',
+    'Base de données officielle E-Phy',
+    'Export Excel et CSV',
     'Gestion des stocks phytosanitaires',
-    'Application mobile responsive',
+    'Gestion de l\'équipe et des tâches',
+    'Suivi des récoltes et des bons d\'apport',
+    'Application web responsive',
   ],
   screenshot: 'https://www.agritrace.fr/og-image.png',
   softwareVersion: '2.0',
@@ -91,7 +91,7 @@ const websiteSchema = {
   '@id': 'https://www.agritrace.fr/#website',
   name: 'Agritrace',
   url: 'https://www.agritrace.fr',
-  description: 'Logiciel de tracabilite agricole et registre phytosanitaire numerique pour les exploitations agricoles francaises.',
+  description: 'Logiciel de gestion agricole et registre phytosanitaire numérique pour les exploitations agricoles françaises.',
   publisher: {
     '@id': 'https://www.agritrace.fr/#organization',
   },
@@ -99,9 +99,12 @@ const websiteSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'Agritrace - Registre Phytosanitaire Numerique | Tracabilite Agricole',
-  description: 'Registre phytosanitaire numerique automatique. Conforme reglementation 2027. Gerez vos parcelles, cultures et traitements phyto. Export PDF/CSV. Essai 30 jours.',
-  keywords: 'registre phytosanitaire numerique, registre phyto, tracabilite agricole, logiciel agricole, gestion parcelles, traitement phytosanitaire, reglementation 2027, PAC, E-Phy',
+  // NOTE SEO : le mot-cle « Registre Phytosanitaire Numerique » est conserve en
+  // tete de title. Ne pas le retirer sans avoir releve au prealable les positions
+  // actuelles dans Google Search Console.
+  title: 'Agritrace - Registre Phytosanitaire Numérique | Gestion Agricole',
+  description: 'Registre phytosanitaire numérique automatique. Gérez vos parcelles, vos cultures, vos interventions et votre équipe au même endroit. Export Excel et CSV. Essai gratuit 30 jours, sans carte bancaire.',
+  keywords: 'registre phytosanitaire numérique, registre phyto, traçabilité agricole, logiciel agricole, gestion parcelles, gestion exploitation agricole, traitement phytosanitaire, E-Phy',
   metadataBase: new URL('https://www.agritrace.fr'),
   alternates: {
     canonical: 'https://www.agritrace.fr',
@@ -118,8 +121,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Agritrace - Registre Phytosanitaire Numerique',
-    description: 'Registre phyto automatique conforme 2027. Vos traitements sont traces automatiquement. Essai 30 jours.',
+    title: 'Agritrace - Registre Phytosanitaire Numérique',
+    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit 30 jours, sans carte bancaire.',
     url: 'https://www.agritrace.fr',
     siteName: 'Agritrace',
     images: [
@@ -135,8 +138,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Agritrace - Registre Phytosanitaire Numerique',
-    description: 'Registre phyto automatique conforme 2027. Traitements traces automatiquement. Essai 30 jours.',
+    title: 'Agritrace - Registre Phytosanitaire Numérique',
+    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit 30 jours.',
     images: ['/og-image.png'],
   },
 }

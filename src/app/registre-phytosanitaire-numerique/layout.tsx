@@ -1,9 +1,11 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
+  // NE PAS modifier ce title sans releve prealable des positions dans Search Console :
+  // c'est la page exacte-match sur « registre phytosanitaire numerique ».
   title: 'Registre Phytosanitaire Numérique Automatique | Agritrace',
-  description: 'Registre phytosanitaire numérique automatique. Chaque traitement enregistré est automatiquement tracé. Conforme réglementation 2027. Export PDF/CSV. Essai 30 jours.',
-  keywords: 'registre phytosanitaire numérique, registre phyto, cahier enregistrement traitements, réglementation phytosanitaire 2027, traçabilité phytosanitaire, logiciel agricole',
+  description: 'Registre phytosanitaire numérique automatique : chaque traitement que vous validez est enregistré sans ressaisie. Export Excel et CSV. Essai gratuit 30 jours, sans carte bancaire.',
+  keywords: 'registre phytosanitaire numérique, registre phyto, cahier enregistrement traitements, réglementation phytosanitaire, traçabilité phytosanitaire, logiciel agricole',
   robots: {
     index: true,
     follow: true,
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Registre Phytosanitaire Numérique Automatique | Agritrace',
-    description: 'Tenez votre registre phytosanitaire sans effort. Automatique et conforme 2027. Essai 30 jours.',
+    description: 'Tenez votre registre phytosanitaire sans ressaisie. Chaque traitement validé est enregistré automatiquement. Essai gratuit 30 jours.',
     url: 'https://www.agritrace.fr/registre-phytosanitaire-numerique',
     siteName: 'Agritrace',
     locale: 'fr_FR',

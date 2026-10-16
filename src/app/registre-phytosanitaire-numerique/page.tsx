@@ -1,52 +1,65 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+
+const APP_URL = 'https://www.app.agritrace.fr'
+
+// ATTENTION SEO — Cette page est l'actif organique principal du site.
+// Ne pas modifier sans precaution :
+//   - l'URL /registre-phytosanitaire-numerique
+//   - le H1 « Registre Phytosanitaire Numerique Automatique »
+//   - la balise title definie dans layout.tsx
+// Toute affirmation reglementaire (date d'entree en vigueur, format impose,
+// caractere obligatoire) doit etre verifiee aupres des sources officielles
+// AVANT d'etre reintroduite ici. Voir AUDIT_COMMUNICATION_SEO_AGRITRACE.md, section 8.
 
 export default function RegistrePhytosanitaireNumerique() {
-  const [showSignupModal, setShowSignupModal] = useState(false)
+  const handleSignup = () => {
+    window.location.href = `${APP_URL}/signup`
+  }
+
+  const handleLogin = () => {
+    window.location.href = APP_URL
+  }
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center group">
-            <img
-              src="/logo.png"
-              alt="Agritrace"
-              className="h-16 w-auto transition-transform group-hover:scale-105"
-            />
-          </Link>
-          <button
-            onClick={() => setShowSignupModal(true)}
-            className="bg-agri-green hover:bg-agri-green-dark text-white px-5 py-2 rounded-full font-medium transition-colors"
-          >
-            Essai 30 jours
-          </button>
-        </div>
-      </header>
+      <Header onSignup={handleSignup} onLogin={handleLogin} />
 
-      {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-green-50 to-white">
+      {/* Fil d'ariane */}
+      <nav className="max-w-7xl mx-auto px-4 pt-24 pb-2" aria-label="Fil d'ariane">
+        <ol className="flex items-center gap-2 text-sm text-gray-500">
+          <li>
+            <Link href="/" className="hover:text-agri-green">Accueil</Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li className="text-gray-900 font-medium">Registre phytosanitaire numérique</li>
+        </ol>
+      </nav>
+
+      {/* Hero */}
+      <section className="py-12 md:py-20 bg-gradient-to-br from-green-50 to-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              Obligatoire dès 2027
+            <div className="inline-block bg-agri-green/10 text-agri-green px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              Sans double saisie
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
               Registre Phytosanitaire <span className="text-agri-green">Numérique</span> Automatique
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Tenez votre registre phytosanitaire sans effort. Chaque traitement enregistré dans Agritrace
-              est <strong>automatiquement tracé</strong> dans votre registre. Conforme à la réglementation 2027.
+              Vous n&apos;avez rien à ressaisir. Chaque traitement que vous validez dans Agritrace
+              crée <strong>automatiquement</strong> la ligne correspondante dans votre registre.
+              Vous l&apos;exportez ensuite au format Excel ou CSV, par année ou par période.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => setShowSignupModal(true)}
+                onClick={handleSignup}
                 className="bg-agri-green hover:bg-agri-green-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
               >
-                Essayer 30 jours
+                Essayer gratuitement 30 jours
               </button>
               <a
                 href="#fonctionnement"
@@ -55,42 +68,54 @@ export default function RegistrePhytosanitaireNumerique() {
                 Comment ça marche ?
               </a>
             </div>
+            <p className="mt-6 text-sm text-gray-500">
+              Sans carte bancaire · Sans engagement
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Réglementation */}
-      <section className="py-16 bg-orange-50">
+      {/* Ce que doit contenir un registre */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
               Réglementation du registre phytosanitaire
             </h2>
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-gray-50 rounded-2xl p-8">
               <p className="text-gray-700 mb-6 text-lg">
-                Le <strong>registre phytosanitaire</strong> (ou cahier d'enregistrement des traitements) est
-                <strong> obligatoire</strong> pour tous les agriculteurs utilisant des produits phytosanitaires.
-                Il doit contenir :
+                Tout agriculteur qui utilise des produits phytosanitaires doit tenir un registre
+                de ses traitements, aussi appelé cahier d&apos;enregistrement. Les informations
+                qui y figurent habituellement sont les suivantes :
               </p>
               <ul className="space-y-3 mb-6">
                 {[
                   'La date du traitement',
                   'Le nom commercial du produit utilisé',
                   'La dose appliquée',
-                  'La parcelle ou culture traitée',
+                  'La parcelle ou la culture traitée',
                   'La surface traitée',
                   'Le nom de l\'opérateur',
                 ].map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="text-green-500 mt-1">✓</span>
+                    <span className="text-agri-green mt-1">✓</span>
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
               </ul>
-              <div className="bg-orange-100 border-l-4 border-orange-500 p-4 rounded">
-                <p className="text-orange-800 font-medium">
-                  À partir de 2027, le registre phytosanitaire devra être tenu sous format <strong>numérique</strong>.
-                  Anticipez dès maintenant avec Agritrace !
+              <p className="text-gray-700 mb-6">
+                Agritrace enregistre ces informations, et plusieurs autres : référence cadastrale,
+                coordonnées GPS, culture et variété, numéro AMM, substances actives, quantité totale,
+                cible, stade de la culture, matériel utilisé, conditions météo, numéros Certiphyto
+                de l&apos;opérateur et du décideur.
+              </p>
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                <p className="text-blue-900">
+                  <strong>Le cadre réglementaire évolue.</strong> Les obligations applicables à
+                  votre exploitation, le format attendu et les échéances dépendent de textes
+                  français et européens susceptibles d&apos;être modifiés. Vérifiez ce qui
+                  s&apos;applique à votre situation auprès de votre chambre d&apos;agriculture,
+                  de votre organisme certificateur ou des sources officielles.
                 </p>
               </div>
             </div>
@@ -99,30 +124,30 @@ export default function RegistrePhytosanitaireNumerique() {
       </section>
 
       {/* Comment ça marche */}
-      <section id="fonctionnement" className="py-16">
+      <section id="fonctionnement" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            Un registre phytosanitaire automatique
+            Un registre phytosanitaire qui se remplit tout seul
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               {
                 step: '1',
-                title: 'Enregistrez votre traitement',
-                description: 'Créez une tâche de traitement phytosanitaire dans Agritrace. Sélectionnez la parcelle, le produit et la dose.',
+                title: 'Vous préparez le traitement',
+                description: 'Vous créez une tâche dans Agritrace : la ou les parcelles, le produit choisi dans la base E-Phy, la dose. Vous pouvez la confier à un salarié.',
                 icon: '📝',
               },
               {
                 step: '2',
-                title: 'C\'est automatique',
-                description: 'Dès que la tâche est validée, toutes les informations sont automatiquement enregistrées dans votre registre phytosanitaire numérique.',
-                icon: '⚡',
+                title: 'Le traitement est validé au champ',
+                description: 'Vous ou votre salarié validez la tâche depuis un téléphone. Agritrace crée alors la ligne de registre pour chaque parcelle concernée, avec la date, l\'heure et l\'opérateur.',
+                icon: '✅',
               },
               {
                 step: '3',
-                title: 'Exportez à tout moment',
-                description: 'Téléchargez votre registre en PDF ou CSV pour vos contrôles, audits ou certifications. Toujours à jour, toujours conforme.',
-                icon: '📄',
+                title: 'Vous exportez quand vous voulez',
+                description: 'Vous choisissez une année ou une période, et vous téléchargez votre registre au format Excel ou CSV, prêt à être présenté.',
+                icon: '📊',
               },
             ].map((item, index) => (
               <div key={index} className="text-center">
@@ -137,7 +162,74 @@ export default function RegistrePhytosanitaireNumerique() {
           </div>
           <div className="text-center mt-12">
             <p className="text-xl text-gray-700 font-medium">
-              Zéro double saisie. Zéro effort supplémentaire. 100% conforme.
+              Zéro double saisie. Vos traitements s&apos;enregistrent au fil de la saison.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Bloc A — Ce que fait Agritrace */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">
+            Ce que fait Agritrace, et ce qu&apos;il ne fait pas
+          </h2>
+
+          <div className="bg-green-50 border border-green-100 rounded-2xl p-8 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span>✅</span> Ce que fait Agritrace
+            </h3>
+            <ul className="space-y-3">
+              {[
+                'Enregistre automatiquement chaque traitement validé : date, heure, parcelle, surface, culture, variété, stade.',
+                'Reprend le produit depuis la base officielle E-Phy, avec son numéro AMM et ses substances actives.',
+                'Identifie l\'opérateur et le décideur, avec leurs numéros Certiphyto.',
+                'Enregistre le matériel utilisé et les conditions météo.',
+                'Regroupe les produits d\'une même bouillie sous un numéro d\'opération commun.',
+                'Exporte votre registre au format Excel ou CSV, par année ou par période.',
+                'Permet aussi d\'exporter le registre complet de l\'exploitation : semis, travail du sol, fertilisation, irrigation, récolte.',
+              ].map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Bloc B — Les limites de l'outil */}
+          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-8 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span>⚠️</span> Les limites de l&apos;outil
+            </h3>
+            <ul className="space-y-3">
+              {[
+                'Agritrace enregistre ce que vous saisissez. Il ne vérifie ni la justesse de la dose, ni l\'autorisation du produit sur votre culture, ni le respect des délais avant récolte.',
+                'Un traitement qui n\'a pas été enregistré dans Agritrace n\'apparaîtra pas dans votre registre.',
+                'La base E-Phy est une source externe. Vérifiez toujours l\'étiquette du produit.',
+                'L\'export reflète les données de votre compte à l\'instant où vous le générez.',
+              ].map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-orange-600 mt-1">•</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Bloc C — Votre responsabilité */}
+          <div className="bg-gray-100 border border-gray-200 rounded-2xl p-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span>👤</span> Votre responsabilité
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Vous restez responsable de l&apos;exactitude des informations enregistrées et du
+              respect de la réglementation applicable à votre exploitation.{' '}
+              <strong>Relisez votre registre avant tout contrôle ou audit.</strong> Agritrace est
+              un outil d&apos;enregistrement et d&apos;export : il ne se substitue ni à votre
+              conseiller, ni aux textes officiels. En cas de doute sur une obligation,
+              rapprochez-vous de votre chambre d&apos;agriculture ou de votre organisme
+              certificateur.
             </p>
           </div>
         </div>
@@ -147,49 +239,49 @@ export default function RegistrePhytosanitaireNumerique() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            Pourquoi choisir Agritrace pour votre registre phyto ?
+            Pourquoi tenir son registre dans Agritrace ?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: '🎯',
-                title: 'Essai 30 jours',
-                description: 'Testez toutes les fonctionnalités pendant 30 jours.',
-              },
-              {
                 icon: '⚡',
-                title: 'Automatique',
-                description: 'Plus de double saisie, tout est tracé automatiquement.',
+                title: 'Pas de ressaisie',
+                description: 'Le registre se construit à partir des tâches que vous validez déjà.',
               },
               {
                 icon: '📱',
-                title: 'Mobile',
-                description: 'Accessible sur smartphone, tablette et ordinateur.',
-              },
-              {
-                icon: '✅',
-                title: 'Conforme',
-                description: 'Conforme à la réglementation en vigueur et 2027.',
+                title: 'Depuis le champ',
+                description: 'Vos salariés valident leurs interventions depuis leur téléphone.',
               },
               {
                 icon: '🔍',
                 title: 'Base E-Phy',
-                description: 'Accès à la base de données officielle des produits.',
+                description: 'Retrouvez un produit, son numéro AMM et ses substances actives.',
               },
               {
                 icon: '📊',
-                title: 'Export PDF/CSV',
-                description: 'Exportez votre registre pour audits et contrôles.',
+                title: 'Export Excel et CSV',
+                description: 'Un fichier exploitable, filtré par année ou par période.',
               },
               {
-                icon: '🔒',
-                title: 'Sécurisé',
-                description: 'Données hébergées en Europe, sauvegardées quotidiennement.',
+                icon: '🗂️',
+                title: 'Registre complet',
+                description: 'Un second export reprend toutes vos opérations, pas seulement les traitements.',
               },
               {
                 icon: '🤝',
-                title: 'Support inclus',
-                description: 'Équipe disponible pour vous accompagner.',
+                title: 'Travail à plusieurs',
+                description: 'Salariés et technicien interviennent, les informations restent réunies.',
+              },
+              {
+                icon: '🔒',
+                title: 'Données protégées',
+                description: 'Échanges en HTTPS, serveurs applicatifs en Europe, sauvegardes régulières.',
+              },
+              {
+                icon: '🎯',
+                title: 'Essai 30 jours',
+                description: 'Testez sur vos propres parcelles, sans carte bancaire.',
               },
             ].map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -202,67 +294,53 @@ export default function RegistrePhytosanitaireNumerique() {
         </div>
       </section>
 
+      {/* Maillage interne */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Pour aller plus loin
+          </h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Link href="/#fonctionnalites" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
+              <span className="font-semibold text-gray-900">Toutes les fonctionnalités</span>
+              <p className="text-sm text-gray-600 mt-1">Parcelles, cultures, équipe, stock, matériel et récolte.</p>
+            </Link>
+            <Link href="/#tarifs" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
+              <span className="font-semibold text-gray-900">Tarifs</span>
+              <p className="text-sm text-gray-600 mt-1">Essentiel, Pro et Enterprise, avec 30 jours d&apos;essai.</p>
+            </Link>
+            <Link href="/faq" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
+              <span className="font-semibold text-gray-900">Questions fréquentes</span>
+              <p className="text-sm text-gray-600 mt-1">Une rubrique est consacrée au registre phytosanitaire.</p>
+            </Link>
+            <Link href="/actualites" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
+              <span className="font-semibold text-gray-900">Actualités et guides</span>
+              <p className="text-sm text-gray-600 mt-1">Traçabilité, préparation de campagne et vie du secteur.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Final */}
       <section className="py-16 bg-agri-green">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Passez au registre phytosanitaire numérique
+            Essayez le registre phytosanitaire numérique
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Rejoignez les agriculteurs qui ont simplifié leur traçabilité avec Agritrace.
-            Essai 30 jours, sans engagement.
+            Créez votre compte et enregistrez vos premiers traitements sur vos propres parcelles.
+            30 jours d&apos;essai, sans carte bancaire et sans engagement.
           </p>
           <button
-            onClick={() => setShowSignupModal(true)}
+            onClick={handleSignup}
             className="bg-white text-agri-green hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
           >
-            Commencer l'essai
+            Commencer l&apos;essai
           </button>
         </div>
       </section>
 
-      {/* Footer simplifié */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🌾</span>
-            <span className="font-bold">Agritrace</span>
-          </div>
-          <nav className="flex gap-6 text-sm text-gray-400">
-            <Link href="/" className="hover:text-white">Accueil</Link>
-            <Link href="/faq" className="hover:text-white">FAQ</Link>
-            <Link href="/mentions-legales" className="hover:text-white">Mentions légales</Link>
-            <Link href="/confidentialite" className="hover:text-white">Confidentialité</Link>
-          </nav>
-          <p className="text-gray-400 text-sm">© 2025 Agritrace</p>
-        </div>
-      </footer>
-
-      {/* Modal signup - redirect to app */}
-      {showSignupModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Créer votre compte</h3>
-            <p className="text-gray-600 mb-6">
-              Vous allez être redirigé vers l'application Agritrace pour créer votre compte et profiter de 30 jours d'essai.
-            </p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowSignupModal(false)}
-                className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-full font-medium hover:bg-gray-50"
-              >
-                Annuler
-              </button>
-              <a
-                href="https://www.app.agritrace.fr/signup"
-                className="flex-1 bg-agri-green text-white py-3 rounded-full font-medium text-center hover:bg-agri-green-dark"
-              >
-                Continuer
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      <Footer />
     </main>
   )
 }

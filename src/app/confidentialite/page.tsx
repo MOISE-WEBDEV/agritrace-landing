@@ -79,9 +79,100 @@ export default function Confidentialite() {
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-4">
               <li><strong>Vos techniciens agricoles</strong> : uniquement si vous les avez autorisés</li>
-              <li><strong>Nos prestataires techniques</strong> : hébergement (Heroku), paiement (Stripe)</li>
               <li><strong>Les autorités</strong> : si la loi l&apos;exige</li>
             </ul>
+
+            <p className="text-gray-600 leading-relaxed mt-6">
+              Nous faisons appel aux sous-traitants suivants, chacun pour une finalité déterminée :
+            </p>
+            <div className="overflow-x-auto mt-4">
+              <table className="w-full text-sm text-left text-gray-600">
+                <thead className="text-gray-900 border-b border-gray-200">
+                  <tr>
+                    <th className="py-2 pr-4 font-semibold">Prestataire</th>
+                    <th className="py-2 pr-4 font-semibold">Finalité</th>
+                    <th className="py-2 font-semibold">Données concernées</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  <tr>
+                    <td className="py-2 pr-4">Heroku (Salesforce)</td>
+                    <td className="py-2 pr-4">Hébergement de l&apos;application et de la base de données (région Europe)</td>
+                    <td className="py-2">Ensemble des données de votre compte et de votre exploitation</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Vercel</td>
+                    <td className="py-2 pr-4">Hébergement du site vitrine www.agritrace.fr</td>
+                    <td className="py-2">Données de navigation sur le site vitrine</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Cloudinary</td>
+                    <td className="py-2 pr-4">Stockage des fichiers que vous déposez</td>
+                    <td className="py-2">Documents Certiphyto, photos de bons d&apos;apport et d&apos;étiquettes</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Stripe</td>
+                    <td className="py-2 pr-4">Paiement de l&apos;abonnement</td>
+                    <td className="py-2">Données de facturation. Vos coordonnées bancaires ne transitent pas par nos serveurs</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Anthropic</td>
+                    <td className="py-2 pr-4">Fonctions d&apos;assistance automatisée (voir ci-dessous)</td>
+                    <td className="py-2">Contenu des échanges avec l&apos;assistant, photos soumises à l&apos;analyse, descriptions de demandes de support</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Mapbox</td>
+                    <td className="py-2 pr-4">Affichage des fonds de carte</td>
+                    <td className="py-2">Coordonnées géographiques affichées</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Brevo</td>
+                    <td className="py-2 pr-4">Envoi des e-mails de service et d&apos;information</td>
+                    <td className="py-2">Adresse e-mail, nom</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Dropcontact</td>
+                    <td className="py-2 pr-4">Vérification et mise en forme des coordonnées professionnelles</td>
+                    <td className="py-2">Coordonnées professionnelles</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">5 bis. Traitements automatisés par intelligence artificielle</h2>
+            <p className="text-gray-600 leading-relaxed">
+              Certaines fonctions d&apos;Agritrace reposent sur un service d&apos;intelligence artificielle
+              fourni par Anthropic. Les contenus suivants lui sont transmis pour être analysés :
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-4">
+              <li>Les messages que vous échangez avec l&apos;assistant du site</li>
+              <li>Les photos de bons d&apos;apport que vous soumettez, afin d&apos;en extraire le tonnage</li>
+              <li>Les photos d&apos;étiquettes de produits que vous soumettez, afin d&apos;en extraire les informations</li>
+              <li>Le descriptif des demandes de support, afin d&apos;orienter leur traitement</li>
+            </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              L&apos;assistant du site est un outil automatisé, et non une personne. Les résultats
+              produits par ces analyses sont indicatifs : il vous revient de les vérifier avant
+              de les valider. Vous pouvez à tout moment renoncer à ces fonctions et saisir
+              manuellement les informations concernées.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">5 ter. Prospection commerciale</h2>
+            <p className="text-gray-600 leading-relaxed">
+              Nous pouvons adresser des informations sur Agritrace à des professionnels du secteur
+              agricole dont les coordonnées proviennent soit d&apos;une demande que vous nous avez
+              adressée, soit de répertoires professionnels publics. Les données traitées se
+              limitent à des coordonnées professionnelles.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Chaque message comporte un lien de désinscription. Vous pouvez également demander à
+              tout moment la suppression de vos coordonnées en écrivant à
+              {' '}<a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>.
+            </p>
           </section>
 
           <section>
