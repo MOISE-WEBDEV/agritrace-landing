@@ -158,7 +158,7 @@ export default function Temoignages() {
               href="https://www.app.agritrace.fr/signup"
               className="inline-block bg-agri-green hover:bg-agri-green-dark text-white px-6 py-3 rounded-full font-medium transition-colors"
             >
-              Créer un compte gratuit
+              Démarrer l&apos;essai gratuit de 30 jours
             </a>
           </div>
         ) : (

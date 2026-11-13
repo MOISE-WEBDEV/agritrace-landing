@@ -2,6 +2,7 @@
 // Protège la clé API côté serveur (Vercel Function)
 
 import { NextRequest, NextResponse } from 'next/server'
+import { TARIFS, MENTION_TVA, prixHT } from '@/lib/tarifs'
 
 // Augmenter le timeout Vercel (max 60s sur Hobby)
 export const maxDuration = 30
@@ -42,9 +43,9 @@ Exemples : "Êtes-vous agriculteur ou technicien conseiller ?"
 
 SI AGRICULTEUR :
 - Collecte sa filière (grandes cultures, arboriculture, viticulture)
-- Propose l'essai gratuit 30 jours, sans carte bancaire
-- Tarifs exacts, à ne jamais arrondir ni inventer : Essentiel 17,90 €/mois (179 €/an),
-  Pro 29 €/mois (290 €/an), Enterprise sur devis
+- Propose l'essai gratuit de 30 jours, sans carte bancaire
+- Tarifs exacts, à ne jamais arrondir ni inventer : Essentiel ${prixHT(TARIFS.essentiel.mensuel)}/mois (${prixHT(TARIFS.essentiel.annuel)}/an),
+  Pro ${prixHT(TARIFS.pro.mensuel)}/mois (${prixHT(TARIFS.pro.annuel)}/an), Entreprise sur devis ; ${MENTION_TVA}
 - Mets en avant des bénéfices concrets : parcelles sur une carte, interventions enregistrées
   une seule fois, registre phytosanitaire qui se remplit à partir des tâches validées,
   tâches confiées aux salariés, suivi des bennes à la récolte
@@ -54,7 +55,7 @@ SI AGRICULTEUR :
 - Quand tu as assez d'informations (filière + intérêt confirmé), ajoute [SHOW_COLLECT_FORM] à ta réponse
 
 SI TECHNICIEN CONSEILLER :
-- Explique que le compte est gratuit mais nécessite une validation (Certiphyto Conseil obligatoire)
+- Explique que le compte nécessite une validation (Certiphyto Conseil obligatoire)
 - Mets en avant : tableau de bord multi-exploitations, suivi clients, outil de prescription
 - L'inscription passe par un email à service.client@agritrace.fr
 - Quand tu as identifié son intérêt, ajoute [SHOW_COLLECT_FORM] à ta réponse

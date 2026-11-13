@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import ChatWidget from '@/components/ChatWidget'
+import { TARIFS, prixSchema } from '@/lib/tarifs'
 
 // Schema.org JSON-LD pour Organization
 const organizationSchema = {
@@ -46,16 +47,24 @@ const softwareApplicationSchema = {
     {
       '@type': 'Offer',
       name: 'Essentiel',
-      price: '17.90',
+      price: prixSchema(TARIFS.essentiel.mensuel),
       priceCurrency: 'EUR',
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: prixSchema(TARIFS.essentiel.mensuel), priceCurrency: 'EUR', valueAddedTaxIncluded: false, unitCode: 'MON' },
+        { '@type': 'UnitPriceSpecification', price: prixSchema(TARIFS.essentiel.annuel), priceCurrency: 'EUR', valueAddedTaxIncluded: false, unitCode: 'ANN' },
+      ],
       priceValidUntil: '2027-12-31',
       availability: 'https://schema.org/InStock',
     },
     {
       '@type': 'Offer',
       name: 'Pro',
-      price: '29',
+      price: prixSchema(TARIFS.pro.mensuel),
       priceCurrency: 'EUR',
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: prixSchema(TARIFS.pro.mensuel), priceCurrency: 'EUR', valueAddedTaxIncluded: false, unitCode: 'MON' },
+        { '@type': 'UnitPriceSpecification', price: prixSchema(TARIFS.pro.annuel), priceCurrency: 'EUR', valueAddedTaxIncluded: false, unitCode: 'ANN' },
+      ],
       priceValidUntil: '2027-12-31',
       availability: 'https://schema.org/InStock',
     },
@@ -103,7 +112,7 @@ export const metadata: Metadata = {
   // tete de title. Ne pas le retirer sans avoir releve au prealable les positions
   // actuelles dans Google Search Console.
   title: 'Agritrace - Registre Phytosanitaire Numérique | Gestion Agricole',
-  description: 'Registre phytosanitaire numérique automatique. Gérez vos parcelles, vos cultures, vos interventions et votre équipe au même endroit. Export Excel et CSV. Essai gratuit 30 jours, sans carte bancaire.',
+  description: 'Registre phytosanitaire numérique automatique. Gérez vos parcelles, vos cultures, vos interventions et votre équipe au même endroit. Export Excel et CSV. Essai gratuit de 30 jours, sans carte bancaire.',
   keywords: 'registre phytosanitaire numérique, registre phyto, traçabilité agricole, logiciel agricole, gestion parcelles, gestion exploitation agricole, traitement phytosanitaire, E-Phy',
   metadataBase: new URL('https://www.agritrace.fr'),
   alternates: {
@@ -122,7 +131,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Agritrace - Registre Phytosanitaire Numérique',
-    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit 30 jours, sans carte bancaire.',
+    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit de 30 jours, sans carte bancaire.',
     url: 'https://www.agritrace.fr',
     siteName: 'Agritrace',
     images: [
@@ -139,7 +148,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Agritrace - Registre Phytosanitaire Numérique',
-    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit 30 jours.',
+    description: 'Chaque traitement que vous validez est enregistré automatiquement dans votre registre. Essai gratuit de 30 jours.',
     images: ['/og-image.png'],
   },
 }

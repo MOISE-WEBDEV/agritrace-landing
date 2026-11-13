@@ -1,12 +1,14 @@
+import { TARIFS, MENTION_TVA, prixHT } from '@/lib/tarifs'
+
 interface PricingProps {
   onGetStarted: (plan?: string) => void
 }
 
 const plans = [
   {
-    name: 'Essai Gratuit',
-    price: '0€',
-    period: 'pendant 30 jours',
+    name: 'Essai gratuit de 30 jours',
+    price: '0 €',
+    period: ' pendant 30 jours',
     description: 'Testez toutes les fonctionnalités',
     features: [
       'Accès complet pendant 30 jours',
@@ -16,12 +18,12 @@ const plans = [
       'Toutes les fonctionnalités Pro',
       'Sans engagement',
     ],
-    cta: 'Commencer l\'essai gratuit',
+    cta: 'Commencer l\'essai gratuit de 30 jours',
     highlighted: false,
   },
   {
     name: 'Essentiel',
-    price: '17,90€',
+    price: prixHT(TARIFS.essentiel.mensuel),
     period: '/mois',
     description: 'L\'essentiel pour votre exploitation',
     features: [
@@ -33,11 +35,11 @@ const plans = [
     cta: 'Choisir Essentiel',
     highlighted: false,
     plan: 'essential',
-    yearlyPrice: '179€/an',
+    yearlyPrice: `${prixHT(TARIFS.essentiel.annuel)}/an`,
   },
   {
     name: 'Pro',
-    price: '29€',
+    price: prixHT(TARIFS.pro.mensuel),
     period: '/mois',
     description: 'Toutes les fonctionnalités pour votre exploitation',
     features: [
@@ -53,10 +55,10 @@ const plans = [
     cta: 'Choisir Pro',
     highlighted: true,
     plan: 'pro',
-    yearlyPrice: '290€/an',
+    yearlyPrice: `${prixHT(TARIFS.pro.annuel)}/an`,
   },
   {
-    name: 'Enterprise',
+    name: 'Entreprise',
     price: 'Sur mesure',
     period: '',
     description: 'Pour les grandes structures',
@@ -84,7 +86,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
             Des tarifs adaptés à vos besoins
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Commencez gratuitement et évoluez selon vos besoins
+            Essai gratuit de 30 jours, puis la formule adaptée à votre exploitation
           </p>
         </div>
 
@@ -119,7 +121,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
                 </span>
                 {plan.yearlyPrice && (
                   <div className={`text-xs mt-1 ${plan.highlighted ? 'text-white/60' : 'text-gray-400'}`}>
-                    ou {plan.yearlyPrice} (économisez 2 mois)
+                    ou {plan.yearlyPrice} (2 mois offerts sur l&apos;abonnement annuel)
                   </div>
                 )}
               </div>
@@ -137,7 +139,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
               </ul>
               {plan.isContact ? (
                 <a
-                  href="mailto:service.client@agritrace.fr?subject=Demande%20d'information%20-%20Plan%20Enterprise"
+                  href="mailto:service.client@agritrace.fr?subject=Demande%20d'information%20-%20Plan%20Entreprise"
                   className={`block w-full py-3 rounded-full font-semibold transition-all text-center ${
                     plan.highlighted
                       ? 'bg-white text-agri-green hover:bg-gray-100'
@@ -161,6 +163,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
             </div>
           ))}
         </div>
+        <p className="text-center text-sm text-gray-600 mt-8">{MENTION_TVA}</p>
       </div>
     </section>
   )

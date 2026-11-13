@@ -59,7 +59,7 @@ export default function RegistrePhytosanitaireNumerique() {
                 onClick={handleSignup}
                 className="bg-agri-green hover:bg-agri-green-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
               >
-                Essayer gratuitement 30 jours
+                Démarrer l&apos;essai gratuit de 30 jours
               </button>
               <a
                 href="#fonctionnement"
@@ -307,7 +307,7 @@ export default function RegistrePhytosanitaireNumerique() {
             </Link>
             <Link href="/#tarifs" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
               <span className="font-semibold text-gray-900">Tarifs</span>
-              <p className="text-sm text-gray-600 mt-1">Essentiel, Pro et Enterprise, avec 30 jours d&apos;essai.</p>
+              <p className="text-sm text-gray-600 mt-1">Essentiel, Pro et Entreprise, avec l&apos;essai gratuit de 30 jours.</p>
             </Link>
             <Link href="/faq" className="block p-5 border border-gray-200 rounded-xl hover:border-agri-green hover:shadow-md transition-all">
               <span className="font-semibold text-gray-900">Questions fréquentes</span>

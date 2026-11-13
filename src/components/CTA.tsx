@@ -18,7 +18,7 @@ export default function CTA({ onGetStarted }: CTAProps) {
             onClick={() => onGetStarted()}
             className="bg-white text-agri-green hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl"
           >
-            Créer mon compte gratuit
+            Démarrer l&apos;essai gratuit de 30 jours
           </button>
           <a
             href="mailto:service.client@agritrace.fr"
