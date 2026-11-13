@@ -36,7 +36,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
                 onClick={() => onGetStarted()}
                 className="bg-agri-green hover:bg-agri-green-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-xl hover:scale-105"
               >
-                Commencer gratuitement
+                Démarrer l&apos;essai gratuit de 30 jours
               </button>
               <a
                 href="#fonctionnalites"
@@ -49,7 +49,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
             <div className="mt-8 flex items-center justify-center md:justify-start gap-6 text-sm text-gray-500 animate-fade-in-up delay-400">
               <div className="flex items-center gap-2">
                 <span className="text-green-500">✓</span>
-                <span>Gratuit pour démarrer</span>
+                <span>Essai gratuit de 30 jours</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-green-500">✓</span>

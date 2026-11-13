@@ -398,13 +398,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </h2>
           <p className="text-green-100 mb-6 max-w-xl mx-auto">
             Anticipez les obligations reglementaires a venir. Vos traitements sont automatiquement traces.
-            Essai gratuit 30 jours, sans engagement.
+            Essai gratuit de 30 jours, sans engagement.
           </p>
           <a
             href="https://www.app.agritrace.fr/signup"
             className="inline-flex items-center gap-2 bg-white text-green-600 px-8 py-3 rounded-lg font-medium hover:bg-green-50 transition-colors"
           >
-            Essayer Agritrace gratuitement
+            Démarrer l&apos;essai gratuit de 30 jours
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>

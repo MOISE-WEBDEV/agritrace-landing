@@ -169,7 +169,7 @@ export default function ChatWidget() {
         <div className="absolute inset-0 bg-white z-10 flex flex-col">
           <div className="bg-[#1b6f3a] text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
             <span className="font-semibold text-sm">
-              {detectedType === 'technician' ? '👨‍🌾 Vos coordonnées' : '🌾 Essayez Agritrace gratuitement'}
+              {detectedType === 'technician' ? '👨‍🌾 Vos coordonnées' : '🌾 Essai gratuit de 30 jours'}
             </span>
             <button onClick={() => setShowForm(false)} className="text-white/80 hover:text-white">✕</button>
           </div>
@@ -197,7 +197,7 @@ export default function ChatWidget() {
               </>
             )}
             <button type="submit" className="w-full py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors">
-              {detectedType === 'technician' ? 'Envoyer ma demande' : 'Démarrer mon essai gratuit'}
+              {detectedType === 'technician' ? 'Envoyer ma demande' : 'Démarrer mon essai gratuit de 30 jours'}
             </button>
           </form>
         </div>
@@ -221,7 +221,7 @@ export default function ChatWidget() {
           ) : (
             <>
               <h3 className="font-bold text-lg text-gray-800 mb-2">Bienvenue sur Agritrace !</h3>
-              <p className="text-sm text-gray-600 mb-4">Créez votre compte et profitez de 30 jours d&apos;essai gratuit.</p>
+              <p className="text-sm text-gray-600 mb-4">Créez votre compte et profitez de l&apos;essai gratuit de 30 jours.</p>
               <a
                 href={`${APP_URL}/signup`}
                 target="_blank"

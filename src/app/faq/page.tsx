@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
+import { TARIFS, prixHT } from '@/lib/tarifs'
 
 interface FAQItem {
   question: string
@@ -35,8 +36,8 @@ const faqCategories = [
         answer: "Cliquez sur 'Créer un compte' sur notre page d'accueil. Remplissez le formulaire avec vos informations (nom, email, nom de l'exploitation, SIRET). Vous recevrez un email de confirmation pour activer votre compte."
       },
       {
-        question: "La période d'essai est-elle vraiment gratuite ?",
-        answer: "Oui, la période d'essai de 30 jours est entièrement gratuite et sans engagement. Aucune carte bancaire n'est demandée. Vous avez accès à toutes les fonctionnalités pendant cette période."
+        question: "L'essai gratuit de 30 jours est-il sans engagement ?",
+        answer: "Oui, l'essai gratuit de 30 jours est sans engagement. Aucune carte bancaire n'est demandée. Vous avez accès à toutes les fonctionnalités pendant cette période."
       },
       {
         question: "Puis-je créer des comptes pour mes employés ?",
@@ -99,7 +100,7 @@ const faqCategories = [
     items: [
       {
         question: "Quels sont les tarifs ?",
-        answer: "Deux abonnements sont proposés. Le plan Essentiel à 17,90 €/mois (ou 179 €/an) comprend la cartographie des parcelles, le registre phytosanitaire, la gestion des tâches d'intervention et le support. Le plan Pro à 29 €/mois (ou 290 €/an) ajoute la gestion d'équipe, la météo et les stades de culture, le stock de produits, le suivi par votre technicien et la gestion du matériel. Les grandes structures peuvent demander un devis pour le plan Enterprise. Le nombre de parcelles n'est pas limité."
+        answer: `Deux abonnements sont proposés. Le plan Essentiel à ${prixHT(TARIFS.essentiel.mensuel)}/mois (ou ${prixHT(TARIFS.essentiel.annuel)}/an) comprend la cartographie des parcelles, le registre phytosanitaire, la gestion des tâches d'intervention et le support. Le plan Pro à ${prixHT(TARIFS.pro.mensuel)}/mois (ou ${prixHT(TARIFS.pro.annuel)}/an) ajoute la gestion d'équipe, la météo et les stades de culture, le stock de produits, le suivi par votre technicien et la gestion du matériel. Les grandes structures peuvent demander un devis pour le plan Entreprise. Le nombre de parcelles n'est pas limité.`
       },
       {
         question: "Comment payer mon abonnement ?",
@@ -141,7 +142,7 @@ const faqCategories = [
       },
       {
         question: "Proposez-vous des formations ?",
-        answer: "Oui, nous proposons des sessions de prise en main gratuites en visioconférence pour les nouveaux utilisateurs. Contactez-nous pour planifier une session."
+        answer: "Oui, nous proposons des sessions de prise en main en visioconférence pour les nouveaux utilisateurs. Contactez-nous pour planifier une session."
       },
       {
         question: "J'ai trouvé un bug, comment le signaler ?",
