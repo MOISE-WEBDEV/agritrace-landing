@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PUBLIC_APP_HOST, PUBLIC_SUPPORT_EMAIL, supportMailto } from '@/lib/site.ts'
 
 export default function CGU() {
   return (
@@ -28,7 +29,7 @@ export default function CGU() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">1. Objet</h2>
             <p className="text-gray-600 leading-relaxed">
               Les présentes Conditions Générales d&apos;Utilisation (CGU) définissent les modalités d&apos;accès et d&apos;utilisation
-              de la plateforme Agritrace, accessible à l&apos;adresse <strong>www.agritrace.fr</strong> et <strong>app.agritrace.fr</strong>.
+              de la plateforme Agritrace, accessible à l&apos;adresse <strong>www.agritrace.fr</strong> et <strong>{PUBLIC_APP_HOST}</strong>.
             </p>
             <p className="text-gray-600 leading-relaxed mt-4">
               En créant un compte ou en utilisant nos services, vous acceptez sans réserve les présentes CGU.
@@ -224,7 +225,7 @@ export default function CGU() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">12. Contact</h2>
             <p className="text-gray-600 leading-relaxed">
               Pour toute question concernant ces CGU :<br /><br />
-              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
+              Email : <a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a>
             </p>
           </section>
         </div>

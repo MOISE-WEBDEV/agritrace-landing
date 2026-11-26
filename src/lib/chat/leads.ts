@@ -1,17 +1,17 @@
 // Formulaires du chatbot → backend (POST /api/v1/public_leads). Seuls les champs prévus pour chaque type sont relayés ;
-// le consentement n'est transmis que si la case est cochée, avec le texte exact affiché.
+// le consentement n'est transmis que si la case est cochée, avec le texte exact affiché. Aucun formulaire agriculteur :
+// l'agriculteur crée son compte seul sur l'application (tout autre type est refusé, ici comme dans le backend).
 
 import { CONSENT_TEXT } from './texts.ts'
 
 export const LEAD_FIELDS = Object.freeze({
-  farmer: ['first_name', 'email', 'culture_type', 'surface'],
   technician: ['first_name', 'last_name', 'company', 'email'],
   structure: ['first_name', 'last_name', 'company', 'role_title', 'email', 'phone', 'message'],
 } as const)
 
 export type LeadType = keyof typeof LEAD_FIELDS
 // Formulaires portant la case de consentement (jamais « structure » : suivi manuel, aucune campagne)
-const WITH_CONSENT: readonly LeadType[] = ['farmer', 'technician']
+const WITH_CONSENT: readonly LeadType[] = ['technician']
 const MAX_FIELD_CHARS = 2000
 
 export function leadPayload(raw: unknown): Record<string, string | boolean> | null {

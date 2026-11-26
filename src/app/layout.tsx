@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import ChatWidget from '@/components/ChatWidget'
+import { PUBLIC_SUPPORT_EMAIL } from '@/lib/site.ts'
 
 // Schema.org JSON-LD pour Organization
 const organizationSchema = {
@@ -28,7 +29,7 @@ const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
-    email: 'service.client@agritrace.fr',
+    email: PUBLIC_SUPPORT_EMAIL,
     availableLanguage: 'French',
   },
 }

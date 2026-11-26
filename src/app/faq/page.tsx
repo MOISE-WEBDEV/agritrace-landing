@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
+import { PUBLIC_SUPPORT_EMAIL, supportMailto } from '@/lib/site.ts'
 
 interface FAQItem {
   question: string
@@ -137,7 +138,7 @@ const faqCategories = [
     items: [
       {
         question: "Comment contacter le support ?",
-        answer: "Vous pouvez nous contacter par email à service.client@agritrace.fr ou via le formulaire de contact dans l'application. Nous répondons généralement sous 24h ouvrées."
+        answer: `Vous pouvez nous contacter par email à ${PUBLIC_SUPPORT_EMAIL} ou via le formulaire de contact dans l'application. Nous répondons généralement sous 24h ouvrées.`
       },
       {
         question: "Proposez-vous des formations ?",
@@ -145,7 +146,7 @@ const faqCategories = [
       },
       {
         question: "J'ai trouvé un bug, comment le signaler ?",
-        answer: "Vous pouvez signaler un bug via le bouton 'Signaler un problème' dans l'application ou par email à service.client@agritrace.fr. Décrivez le problème et joignez une capture d'écran si possible."
+        answer: `Vous pouvez signaler un bug via le bouton 'Signaler un problème' dans l'application ou par email à ${PUBLIC_SUPPORT_EMAIL}. Décrivez le problème et joignez une capture d'écran si possible.`
       }
     ]
   }
@@ -231,7 +232,7 @@ export default function FAQ() {
             Notre équipe est là pour vous aider. Contactez-nous et nous vous répondrons rapidement.
           </p>
           <a
-            href="mailto:service.client@agritrace.fr"
+            href={supportMailto()}
             className="inline-block bg-agri-green hover:bg-agri-green-dark text-white px-6 py-3 rounded-full font-medium transition-colors"
           >
             Contacter le support
