@@ -176,6 +176,38 @@ export default function Confidentialite() {
           </section>
 
           <section>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">5 quater. Formulaires de l&apos;assistant du site</h2>
+            <p className="text-gray-600 leading-relaxed">
+              L&apos;assistant du site peut vous proposer un formulaire selon votre profil. Les données
+              saisies sont traitées par MGStudio – Agritrace :
+            </p>
+            <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-4">
+              <li>
+                <strong>Exploitant agricole</strong> (prénom, e-mail, type de culture, surface) : pour vous
+                orienter vers l&apos;inscription et répondre à votre demande
+              </li>
+              <li>
+                <strong>Technicien conseil indépendant</strong> (prénom, nom, statut ou entreprise, e-mail) :
+                pour étudier votre demande de compte technicien, qui suppose la vérification de votre
+                Certiphyto Conseil
+              </li>
+              <li>
+                <strong>Structure</strong> (coopérative, négoce, chambre d&apos;agriculture, organisme de
+                conseil, groupement : prénom, nom, structure, fonction, e-mail, téléphone et message
+                facultatifs) : pour répondre à votre demande commerciale ; ces coordonnées ne reçoivent
+                aucun envoi automatique
+              </li>
+            </ul>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Les formulaires exploitant et technicien comportent une case, non cochée par défaut, pour
+              accepter de recevoir des informations et conseils d&apos;Agritrace par e-mail. Sans cette
+              case cochée, nous répondons seulement à votre demande. Nous enregistrons la date, le texte
+              accepté et le formulaire d&apos;origine de votre accord, que vous pouvez retirer à tout moment
+              par le lien de désinscription présent dans chaque e-mail.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">6. Conservation des données</h2>
             <p className="text-gray-600 leading-relaxed">
               Vos données sont conservées pendant la durée de votre utilisation du service, puis :
@@ -184,6 +216,15 @@ export default function Confidentialite() {
               <li><strong>Données de compte</strong> : supprimées 3 ans après la dernière connexion</li>
               <li><strong>Données d&apos;exploitation</strong> : conservées 10 ans (obligations légales de traçabilité)</li>
               <li><strong>Données de facturation</strong> : conservées 10 ans (obligations comptables)</li>
+              <li>
+                <strong>Demandes envoyées par l&apos;assistant du site</strong> : supprimées 12 mois après
+                notre dernier échange ; une demande de compte technicien non traitée est supprimée
+                12 mois après son envoi
+              </li>
+              <li>
+                <strong>Désinscription</strong> : l&apos;adresse d&apos;une personne désinscrite est conservée
+                dans une liste d&apos;opposition, pour ne plus jamais lui écrire
+              </li>
             </ul>
           </section>
 

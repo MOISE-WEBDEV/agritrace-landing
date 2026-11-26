@@ -1,28 +1,105 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import {
+  CONSENT_TEXT,
+  GENERIC_ERROR,
+  MESSAGE_MAX_CHARS,
+  PUBLIC_APP_URL,
+  PUBLIC_SUPPORT_EMAIL,
+  SALARIE_INFO,
+  SIGNUP_PATH,
+  privacyNotice,
+} from '@/lib/chat/texts.ts'
 
 interface Message {
   role: 'user' | 'assistant'
   content: string
+  // Signature posée par le serveur sur ses réponses (renvoyée telle quelle avec l'historique)
+  signature?: string | null
 }
 
-const APP_URL = 'https://www.app.agritrace.fr'
+type Panel = 'farmer_form' | 'technician_form' | 'structure_form' | 'salarie_info' | null
+type FormType = 'farmer' | 'technician' | 'structure'
+
+const SESSION_KEY = 'agritrace-chat-session'
+const SIGNUP_URL = `${PUBLIC_APP_URL}${SIGNUP_PATH}`
+
+const FORM_OF_PANEL: Partial<Record<Exclude<Panel, null>, FormType>> = {
+  farmer_form: 'farmer',
+  technician_form: 'technician',
+  structure_form: 'structure',
+}
+
+const FORM_TITLES: Record<FormType, string> = {
+  farmer: '🌾 Essayez Agritrace gratuitement',
+  technician: '👨‍🌾 Compte technicien conseil',
+  structure: '🏢 Votre structure',
+}
+
+const ACTION_LABELS: Record<FormType, string> = {
+  farmer: 'Démarrer mon essai gratuit',
+  technician: 'Demander mon compte technicien',
+  structure: 'Être recontacté',
+}
+
+const inputClass = 'w-full px-3 py-2 border border-gray-300 rounded-lg text-sm'
+
+function newSessionId(): string {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+  // Repli (navigateur ancien) : identifiant au même format
+  return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, () => Math.floor(Math.random() * 16).toString(16))
+}
+
+function chatSessionId(): string {
+  try {
+    const saved = window.sessionStorage.getItem(SESSION_KEY)
+    if (saved) return saved
+    const created = newSessionId()
+    window.sessionStorage.setItem(SESSION_KEY, created)
+    return created
+  } catch {
+    return newSessionId()
+  }
+}
+
+function PrivacyNotice({ withConsent }: { withConsent: boolean }) {
+  return (
+    <p className="text-[11px] leading-snug text-gray-500">
+      {privacyNotice(withConsent)}{' '}
+      <a href="/confidentialite" target="_blank" className="underline text-[#1b6f3a]">
+        Politique de confidentialité
+      </a>
+    </p>
+  )
+}
+
+function ConsentBox() {
+  return (
+    <label className="flex items-start gap-2 text-xs text-gray-600">
+      <input type="checkbox" name="marketing_consent" className="mt-0.5" />
+      <span>{CONSENT_TEXT}</span>
+    </label>
+  )
+}
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showForm, setShowForm] = useState(false)
-  const [detectedType, setDetectedType] = useState<string | null>(null)
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [panel, setPanel] = useState<Panel>(null)
+  const [openForm, setOpenForm] = useState<FormType | null>(null)
+  const [submitted, setSubmitted] = useState<FormType | null>(null)
+  const [formError, setFormError] = useState<string | null>(null)
+  const [isSending, setIsSending] = useState(false)
   const [showPulse, setShowPulse] = useState(true)
+  const sessionId = useRef<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, panel])
 
   // Masquer le pulse après 10 secondes
   useEffect(() => {
@@ -32,6 +109,7 @@ export default function ChatWidget() {
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return
+    if (!sessionId.current) sessionId.current = chatSessionId()
 
     const userMessage = input.trim()
     setInput('')
@@ -44,22 +122,20 @@ export default function ChatWidget() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userMessage,
+          session_id: sessionId.current,
           conversation_history: messages
         })
       })
+      const data = await res.json().catch(() => ({}))
 
-      const data = await res.json()
-
-      if (data.response) {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+      if (res.ok && typeof data.response === 'string') {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.response, signature: data.signature ?? null }])
+        setPanel((data.panel ?? null) as Panel)
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: typeof data.error === 'string' ? data.error : GENERIC_ERROR }])
       }
-      if (data.show_form) setShowForm(true)
-      if (data.detected_type) setDetectedType(data.detected_type)
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Désolé, une erreur est survenue. Vous pouvez nous contacter à service.client@agritrace.fr'
-      }])
+      setMessages(prev => [...prev, { role: 'assistant', content: GENERIC_ERROR }])
     } finally {
       setIsLoading(false)
     }
@@ -75,21 +151,40 @@ export default function ChatWidget() {
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!openForm || isSending) return
     const formData = new FormData(e.currentTarget)
-    const data: Record<string, string> = {}
-    formData.forEach((value, key) => { data[key] = value as string })
-    data.prospect_type = detectedType || 'farmer'
+    const data: Record<string, string | boolean> = { prospect_type: openForm }
+    formData.forEach((value, key) => {
+      if (key !== 'marketing_consent' && typeof value === 'string') data[key] = value
+    })
+    data.marketing_consent = formData.get('marketing_consent') === 'on'
 
+    setIsSending(true)
+    setFormError(null)
     try {
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
-      setFormSubmitted(true)
+      if (res.ok) {
+        setSubmitted(openForm)
+        setOpenForm(null)
+      } else {
+        const body = await res.json().catch(() => ({}))
+        setFormError(typeof body.error === 'string' ? body.error : GENERIC_ERROR)
+      }
     } catch {
-      alert('Erreur lors de l\'envoi. Contactez service.client@agritrace.fr')
+      setFormError(GENERIC_ERROR)
+    } finally {
+      setIsSending(false)
     }
+  }
+
+  const closeOverlays = () => {
+    setOpenForm(null)
+    setSubmitted(null)
+    setFormError(null)
   }
 
   // Bouton flottant
@@ -110,15 +205,17 @@ export default function ChatWidget() {
     )
   }
 
+  const actionForm = panel ? FORM_OF_PANEL[panel] : undefined
+
   return (
-    <div className="fixed bottom-6 right-6 z-[60] w-[380px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl shadow-2xl overflow-hidden bg-white border border-gray-200">
+    <div className="fixed bottom-6 right-6 z-[60] w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl shadow-2xl overflow-hidden bg-white border border-gray-200">
       {/* Header */}
       <div className="bg-[#1b6f3a] text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-xl">🌾</span>
           <div>
             <div className="font-semibold text-sm">Assistant Agritrace</div>
-            <div className="text-xs opacity-80">En ligne</div>
+            <div className="text-xs opacity-80">Assistant automatisé</div>
           </div>
         </div>
         <button
@@ -161,69 +258,99 @@ export default function ChatWidget() {
             </div>
           </div>
         )}
+
+        {/* Suite selon le parcours choisi par le serveur */}
+        {!isLoading && panel === 'salarie_info' && (
+          <div className="bg-white border border-[#1b6f3a]/30 rounded-xl p-3 text-sm text-gray-700" data-chat-panel="salarie_info">
+            {SALARIE_INFO}
+          </div>
+        )}
+        {!isLoading && actionForm && (
+          <div className="flex flex-col gap-2" data-chat-panel={panel ?? ''}>
+            <button
+              onClick={() => { setOpenForm(actionForm); setFormError(null) }}
+              className="w-full py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors"
+            >
+              {ACTION_LABELS[actionForm]}
+            </button>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Formulaire de collecte */}
-      {showForm && !formSubmitted && (
+      {/* Formulaires */}
+      {openForm && (
         <div className="absolute inset-0 bg-white z-10 flex flex-col">
           <div className="bg-[#1b6f3a] text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
-            <span className="font-semibold text-sm">
-              {detectedType === 'technician' ? '👨‍🌾 Vos coordonnées' : '🌾 Essayez Agritrace gratuitement'}
-            </span>
-            <button onClick={() => setShowForm(false)} className="text-white/80 hover:text-white">✕</button>
+            <span className="font-semibold text-sm">{FORM_TITLES[openForm]}</span>
+            <button onClick={closeOverlays} className="text-white/80 hover:text-white" aria-label="Fermer le formulaire">✕</button>
           </div>
           <form onSubmit={submitForm} className="flex-1 overflow-y-auto p-4 space-y-3">
-            <input name="first_name" required placeholder="Prénom *" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-            {detectedType === 'technician' ? (
+            {openForm === 'farmer' && (
               <>
-                <input name="last_name" required placeholder="Nom *" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-                <input name="company" placeholder="Structure (coopérative, chambre...)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-                <input name="email" type="email" required placeholder="Email professionnel *" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-                <p className="text-xs text-gray-500">
-                  Votre compte sera créé par notre équipe après vérification de votre Certiphyto Conseil.
-                </p>
-              </>
-            ) : (
-              <>
-                <select name="culture_type" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white">
+                <input name="first_name" required placeholder="Prénom *" className={inputClass} />
+                <select name="culture_type" className={`${inputClass} bg-white`}>
                   <option value="">Type de culture</option>
                   <option value="grande_culture">Grandes cultures</option>
                   <option value="arboriculture">Arboriculture fruitière</option>
                   <option value="viticulture">Viticulture</option>
                 </select>
-                <input name="surface" placeholder="Surface approximative (ha)" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-                <input name="email" type="email" required placeholder="Email *" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+                <input name="surface" placeholder="Surface approximative (ha)" className={inputClass} />
+                <input name="email" type="email" required placeholder="Email *" className={inputClass} />
+                <ConsentBox />
               </>
             )}
-            <button type="submit" className="w-full py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors">
-              {detectedType === 'technician' ? 'Envoyer ma demande' : 'Démarrer mon essai gratuit'}
+            {openForm === 'technician' && (
+              <>
+                <input name="first_name" required placeholder="Prénom *" className={inputClass} />
+                <input name="last_name" required placeholder="Nom *" className={inputClass} />
+                <input name="company" placeholder="Statut ou entreprise (indépendant, société de conseil…)" className={inputClass} />
+                <input name="email" type="email" required placeholder="Email professionnel *" className={inputClass} />
+                <p className="text-xs text-gray-500">
+                  Votre compte technicien est ouvert après vérification de votre Certiphyto Conseil.
+                </p>
+                <ConsentBox />
+              </>
+            )}
+            {openForm === 'structure' && (
+              <>
+                <input name="first_name" required placeholder="Prénom *" className={inputClass} />
+                <input name="last_name" required placeholder="Nom *" className={inputClass} />
+                <input name="company" required placeholder="Structure (coopérative, négoce, chambre…) *" className={inputClass} />
+                <input name="role_title" required placeholder="Fonction *" className={inputClass} />
+                <input name="email" type="email" required placeholder="Email professionnel *" className={inputClass} />
+                <input name="phone" type="tel" placeholder="Téléphone (facultatif)" className={inputClass} />
+                <textarea name="message" rows={3} placeholder="Votre message (facultatif)" className={inputClass} />
+              </>
+            )}
+            {formError && <p className="text-xs text-red-600" role="alert">{formError}</p>}
+            <button
+              type="submit"
+              disabled={isSending}
+              className="w-full py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] disabled:opacity-60 transition-colors"
+            >
+              {openForm === 'farmer' ? 'Démarrer mon essai gratuit' : 'Envoyer ma demande'}
             </button>
+            {openForm === 'farmer' && (
+              <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer" className="block text-center text-xs text-[#1b6f3a] underline">
+                Créer mon compte directement, sans laisser mes coordonnées ici
+              </a>
+            )}
+            <PrivacyNotice withConsent={openForm !== 'structure'} />
           </form>
         </div>
       )}
 
-      {/* Succès formulaire */}
-      {formSubmitted && (
+      {/* Confirmation */}
+      {submitted && (
         <div className="absolute inset-0 bg-white z-10 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-4xl mb-4">✅</span>
-          {detectedType === 'technician' ? (
-            <>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Demande envoyée !</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Notre équipe examinera votre dossier et créera votre compte sous 48h.
-                Envoyez votre Certiphyto Conseil à :
-              </p>
-              <a href="mailto:service.client@agritrace.fr" className="text-[#1b6f3a] font-semibold underline">
-                service.client@agritrace.fr
-              </a>
-            </>
-          ) : (
+          {submitted === 'farmer' ? (
             <>
               <h3 className="font-bold text-lg text-gray-800 mb-2">Bienvenue sur Agritrace !</h3>
               <p className="text-sm text-gray-600 mb-4">Créez votre compte et profitez de 30 jours d&apos;essai gratuit.</p>
               <a
-                href={`${APP_URL}/signup`}
+                href={SIGNUP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors"
@@ -231,15 +358,26 @@ export default function ChatWidget() {
                 Créer mon compte
               </a>
             </>
+          ) : (
+            <>
+              <h3 className="font-bold text-lg text-gray-800 mb-2">Demande envoyée !</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Notre équipe vous recontacte rapidement.
+                {submitted === 'technician' && ' Préparez votre Certiphyto Conseil, il vous sera demandé.'}
+              </p>
+              <a href={`mailto:${PUBLIC_SUPPORT_EMAIL}`} className="text-[#1b6f3a] font-semibold underline">
+                {PUBLIC_SUPPORT_EMAIL}
+              </a>
+            </>
           )}
-          <button onClick={() => { setIsOpen(false); setFormSubmitted(false); setShowForm(false) }} className="mt-4 text-sm text-gray-400 hover:text-gray-600">
+          <button onClick={() => { setIsOpen(false); closeOverlays() }} className="mt-4 text-sm text-gray-400 hover:text-gray-600">
             Fermer
           </button>
         </div>
       )}
 
       {/* Input */}
-      {!showForm && !formSubmitted && (
+      {!openForm && !submitted && (
         <div className="p-3 border-t border-gray-200 flex gap-2 flex-shrink-0 bg-white">
           <input
             type="text"
@@ -247,12 +385,14 @@ export default function ChatWidget() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Votre message..."
+            maxLength={MESSAGE_MAX_CHARS}
             className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#1b6f3a]"
             disabled={isLoading}
           />
           <button
             onClick={sendMessage}
             disabled={isLoading || !input.trim()}
+            aria-label="Envoyer"
             className="px-3 py-2 bg-[#1b6f3a] text-white rounded-lg hover:bg-[#0a751f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
