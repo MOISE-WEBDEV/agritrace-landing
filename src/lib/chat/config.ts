@@ -27,6 +27,10 @@ export const CHAT_DEFAULTS = Object.freeze({
   maxVisitorMessagesForRouting: 6,
   // Délai de l'appel au backend pour le quota
   quotaTimeoutMs: 5_000,
+  // Interrupteur « Chatbot de la landing actif » (backend) : durée du cache, pour ne pas interroger le backend à chaque
+  // message (surchargeable par CHAT_STATUS_CACHE_MS), et délai de l'appel
+  statusCacheMs: 60_000,
+  statusTimeoutMs: 2_000,
   supportEmail: DEFAULT_SUPPORT_EMAIL,
   backendUrl: DEFAULT_APP_URL,
 })
@@ -43,6 +47,8 @@ export interface ChatConfig {
   maxTotalChars: number
   maxVisitorMessagesForRouting: number
   quotaTimeoutMs: number
+  statusCacheMs: number
+  statusTimeoutMs: number
   supportEmail: string
   backendUrl: string
   // Secrets (jamais renvoyés au navigateur)
@@ -76,6 +82,8 @@ export function chatConfig(env: Env = process.env): ChatConfig {
     maxTotalChars: positiveInt(env.CHAT_MAX_TOTAL_CHARS, CHAT_DEFAULTS.maxTotalChars),
     maxVisitorMessagesForRouting: CHAT_DEFAULTS.maxVisitorMessagesForRouting,
     quotaTimeoutMs: CHAT_DEFAULTS.quotaTimeoutMs,
+    statusCacheMs: positiveInt(env.CHAT_STATUS_CACHE_MS, CHAT_DEFAULTS.statusCacheMs),
+    statusTimeoutMs: CHAT_DEFAULTS.statusTimeoutMs,
     supportEmail: safeEmail(env.SUPPORT_EMAIL, CHAT_DEFAULTS.supportEmail),
     backendUrl: (present(env.RAILS_API_URL) ?? CHAT_DEFAULTS.backendUrl).replace(/\/+$/, ''),
     apiKey: present(env.ANTHROPIC_API_KEY),

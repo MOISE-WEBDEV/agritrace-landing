@@ -8,10 +8,10 @@ import { chatConfig, PARCOURS, type ChatConfig } from '../../src/lib/chat/config
 import { handleChat, type ChatDeps } from '../../src/lib/chat/handler.ts'
 import { sanitizeHistory, signReply, verifyReply } from '../../src/lib/chat/history.ts'
 import { leadPayload } from '../../src/lib/chat/leads.ts'
-import { requestQuota, RELAY_SECRET_HEADER, VISITOR_IP_HEADER } from '../../src/lib/chat/relay.ts'
+import { createStatusCache, requestChatStatus, requestQuota, RELAY_SECRET_HEADER, VISITOR_IP_HEADER, type ChatStatus } from '../../src/lib/chat/relay.ts'
 import { normalizeParcours, panelFor, parseRoutingOutput, prospectTypeFor } from '../../src/lib/chat/routing.ts'
 import { replySystemPrompt } from '../../src/lib/chat/prompts.ts'
-import { CONSENT_TEXT, FARMER_SIGNUP_LABEL, GENERIC_ERROR, RATE_LIMITED } from '../../src/lib/chat/texts.ts'
+import { chatbotPaused, CONSENT_TEXT, FARMER_SIGNUP_LABEL, GENERIC_ERROR, RATE_LIMITED } from '../../src/lib/chat/texts.ts'
 import { CONVERSATIONS } from './conversations.ts'
 
 const SESSION = '0b6f1c1e-8a52-4c39-9a0e-3c2f4d5e6f70'
@@ -27,6 +27,7 @@ interface Calls { classify: string[]; reply: Array<{ system: string; turns: unkn
 function deps(overrides: Partial<ChatDeps> = {}, calls: Calls = { classify: [], reply: [], quota: 0, logs: [] }): ChatDeps {
   return {
     config: config(),
+    status: async () => 'enabled',
     quota: async () => { calls.quota += 1; return 'ok' },
     classify: async (text) => { calls.classify.push(text); return 'question' },
     reply: async (system, turns) => { calls.reply.push({ system, turns }); return 'Réponse du chatbot.' },
@@ -258,6 +259,74 @@ test('quota : sans secret, aucune requête et refus ; sinon IP du visiteur et se
   assert.equal(seen[0].headers[RELAY_SECRET_HEADER], 'relais')
   assert.equal(seen[0].headers[VISITOR_IP_HEADER], '203.0.113.7')
   assert.deepEqual(JSON.parse(seen[0].body), { session_id: SESSION })
+})
+
+// --- Interrupteur « Chatbot de la landing actif » ---
+
+test('interrupteur coupé → message neutre, aucun appel à l’API Claude ni au quota ; rallumé → fonctionnement normal', async () => {
+  const calls: Calls = { classify: [], reply: [], quota: 0, logs: [] }
+  let status: ChatStatus = 'disabled'
+  const d = deps({ config: config({ supportEmail: 'support@example.test' }), status: async () => status }, calls)
+
+  const paused = await handleChat({ message: 'Je suis viticulteur', session_id: SESSION }, d)
+  assert.deepEqual([paused.status, paused.body], [503, { error: chatbotPaused('support@example.test') }])
+  assert.equal(chatbotPaused('support@example.test'), 'Notre assistant est momentanément indisponible, écrivez-nous à support@example.test.')
+  assert.deepEqual([calls.quota, calls.classify.length, calls.reply.length], [0, 0, 0])
+
+  status = 'enabled'
+  const normal = await handleChat({ message: 'Je suis viticulteur', session_id: SESSION }, d)
+  assert.equal(normal.status, 200)
+  assert.deepEqual([calls.quota, calls.classify.length, calls.reply.length], [1, 1, 1])
+
+  status = 'unknown' // backend injoignable : le quota décide (il refuse sans backend)
+  const unknown = await handleChat({ message: 'Bonjour', session_id: SESSION }, d)
+  assert.equal(unknown.status, 200)
+})
+
+test('état de l’interrupteur : secret envoyé, réponses nettes seulement ; sans secret, aucune requête', async () => {
+  let called = 0
+  const none = (async () => { called += 1; return new Response('{}') }) as typeof fetch
+  assert.equal(await requestChatStatus({ backendUrl: 'https://b.test', secret: null, timeoutMs: 1000, fetchImpl: none }), 'unknown')
+  assert.equal(called, 0)
+
+  const seen: Array<{ url: string; headers: Record<string, string> }> = []
+  const respond = (status: number, body: unknown) => (async (url: string, init: RequestInit) => {
+    seen.push({ url, headers: init.headers as Record<string, string> })
+    return new Response(JSON.stringify(body), { status })
+  }) as unknown as typeof fetch
+  const base = { backendUrl: 'https://b.test', secret: 'relais', timeoutMs: 1000 }
+  assert.equal(await requestChatStatus({ ...base, fetchImpl: respond(200, { enabled: true }) }), 'enabled')
+  assert.equal(await requestChatStatus({ ...base, fetchImpl: respond(200, { enabled: false }) }), 'disabled')
+  assert.equal(await requestChatStatus({ ...base, fetchImpl: respond(200, { enabled: 'non' }) }), 'unknown')
+  assert.equal(await requestChatStatus({ ...base, fetchImpl: respond(403, {}) }), 'unknown')
+  assert.equal(await requestChatStatus({ ...base, fetchImpl: (async () => { throw new Error('réseau') }) as typeof fetch }), 'unknown')
+  assert.equal(seen[0].url, 'https://b.test/api/v1/public_chat_status')
+  assert.equal(seen[0].headers[RELAY_SECRET_HEADER], 'relais')
+})
+
+test('cache court de l’interrupteur : une requête par période ; « unknown » n’est pas gardé ; durée réglable', async () => {
+  let clock = 0
+  let fetches = 0
+  let answer: ChatStatus = 'enabled'
+  const current = createStatusCache(async () => { fetches += 1; return answer }, 60_000, () => clock)
+
+  assert.equal(await current(), 'enabled')
+  answer = 'disabled'
+  clock = 59_999
+  assert.equal(await current(), 'enabled', 'dans la période : valeur en cache, sans requête')
+  assert.equal(fetches, 1)
+  clock = 60_000
+  assert.equal(await current(), 'disabled', 'période écoulée : nouvel état lu')
+  assert.equal(fetches, 2)
+
+  answer = 'unknown'
+  clock = 200_000
+  await current()
+  await current()
+  assert.equal(fetches, 4, 'état inconnu : redemandé à chaque message')
+
+  assert.equal(chatConfig({}).statusCacheMs, 60_000)
+  assert.equal(chatConfig({ CHAT_STATUS_CACHE_MS: '15000' }).statusCacheMs, 15_000)
 })
 
 // --- Formulaires ---

@@ -42,4 +42,8 @@ export const SALARIE_INFO =
 
 // Message unique côté navigateur pour toute erreur (jamais le texte d'une erreur de l'API)
 export const GENERIC_ERROR = `L'assistant est momentanément indisponible. Vous pouvez nous écrire à ${PUBLIC_SUPPORT_EMAIL}.`
+// Chatbot coupé depuis la page Agents IA du backend (interrupteur « Chatbot de la landing actif »)
+export function chatbotPaused(supportEmail: string): string {
+  return `Notre assistant est momentanément indisponible, écrivez-nous à ${supportEmail}.`
+}
 export const RATE_LIMITED = 'Vous avez envoyé beaucoup de messages. Réessayez un peu plus tard.'
