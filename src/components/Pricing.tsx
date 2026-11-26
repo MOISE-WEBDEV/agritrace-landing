@@ -1,3 +1,5 @@
+import { supportMailto } from '@/lib/site.ts'
+
 interface PricingProps {
   onGetStarted: (plan?: string) => void
 }
@@ -137,7 +139,7 @@ export default function Pricing({ onGetStarted }: PricingProps) {
               </ul>
               {plan.isContact ? (
                 <a
-                  href="mailto:service.client@agritrace.fr?subject=Demande%20d'information%20-%20Plan%20Enterprise"
+                  href={supportMailto("Demande d'information - Plan Enterprise")}
                   className={`block w-full py-3 rounded-full font-semibold transition-all text-center ${
                     plan.highlighted
                       ? 'bg-white text-agri-green hover:bg-gray-100'

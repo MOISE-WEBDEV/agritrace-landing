@@ -1,3 +1,5 @@
+import { supportMailto } from '@/lib/site.ts'
+
 interface CTAProps {
   onGetStarted: (plan?: string) => void
 }
@@ -21,7 +23,7 @@ export default function CTA({ onGetStarted }: CTAProps) {
             Créer mon compte gratuit
           </button>
           <a
-            href="mailto:service.client@agritrace.fr"
+            href={supportMailto()}
             className="border-2 border-white text-white hover:bg-white hover:text-agri-green px-8 py-4 rounded-full font-semibold text-lg transition-all"
           >
             Nous contacter

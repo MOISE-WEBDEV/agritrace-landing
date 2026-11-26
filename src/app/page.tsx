@@ -9,17 +9,15 @@ import PressCarousel from '@/components/PressCarousel'
 import Pricing from '@/components/Pricing'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
-
-const APP_URL = 'https://www.app.agritrace.fr'
+import { PUBLIC_APP_URL, signupUrl } from '@/lib/site.ts'
 
 export default function Home() {
   const handleSignup = (plan?: string) => {
-    const url = plan ? `${APP_URL}/signup?plan=${plan}` : `${APP_URL}/signup`
-    window.location.href = url
+    window.location.href = signupUrl(PUBLIC_APP_URL, plan)
   }
 
   const handleLogin = () => {
-    window.location.href = APP_URL
+    window.location.href = PUBLIC_APP_URL
   }
 
   return (

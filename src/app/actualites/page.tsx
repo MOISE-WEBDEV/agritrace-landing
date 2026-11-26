@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { PUBLIC_API_URL, supportMailto } from '@/lib/site.ts'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.app.agritrace.fr'
+const API_URL = PUBLIC_API_URL
 
 export const metadata: Metadata = {
   title: 'Actualites agricoles : tracabilite, registre phytosanitaire et reglementation | Agritrace',
@@ -303,7 +304,7 @@ export default async function ActualitesPage() {
             Vous etes journaliste ou souhaitez en savoir plus sur la tracabilite agricole ?
           </p>
           <a
-            href="mailto:service.client@agritrace.fr?subject=Demande presse - Tracabilite agricole"
+            href={supportMailto('Demande presse - Tracabilite agricole')}
             className="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

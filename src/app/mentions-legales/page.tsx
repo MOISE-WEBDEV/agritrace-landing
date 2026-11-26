@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PUBLIC_APP_HOST, PUBLIC_SUPPORT_EMAIL, supportMailto } from '@/lib/site.ts'
 
 export default function MentionsLegales() {
   return (
@@ -35,7 +36,7 @@ export default function MentionsLegales() {
               Le site <strong>www.agritrace.fr</strong> est édité par :<br /><br />
               <strong>Agritrace</strong><br />
               Adresse : 1 route du Rond d&apos;Orléans, 02300 Sinceny<br />
-              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
+              Email : <a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a>
             </p>
           </section>
 
@@ -43,7 +44,7 @@ export default function MentionsLegales() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">2. Directeur de la publication</h2>
             <p className="text-gray-600 leading-relaxed">
               Moïse Goguillon<br />
-              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
+              Email : <a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a>
             </p>
           </section>
 
@@ -55,7 +56,7 @@ export default function MentionsLegales() {
               340 S Lemon Ave #4133<br />
               Walnut, CA 91789, États-Unis<br /><br />
 
-              <strong>Application (app.agritrace.fr)</strong><br />
+              <strong>Application ({PUBLIC_APP_HOST})</strong><br />
               Hébergé par Heroku (Salesforce)<br />
               415 Mission Street, Suite 300<br />
               San Francisco, CA 94105, États-Unis

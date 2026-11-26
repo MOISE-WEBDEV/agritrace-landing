@@ -1,14 +1,14 @@
 // Choix du parcours : le modèle classe le profil à partir des SEULS messages du visiteur et renvoie une valeur de la
-// liste fermée PARCOURS ; le serveur refuse toute autre valeur (repli : « question »). Le formulaire affiché découle
-// du parcours, jamais d'un mot-clé.
+// liste fermée PARCOURS ; le serveur refuse toute autre valeur (repli : « question »). Ce qui est affiché découle
+// du parcours, jamais d'un mot-clé. Agriculteur : bouton d'inscription, aucun formulaire ni coordonnée demandée.
 
 import { PARCOURS, PARCOURS_PAR_DEFAUT, type Parcours } from './config.ts'
 
-export type Panel = 'farmer_form' | 'technician_form' | 'structure_form' | 'salarie_info' | null
-export type ProspectType = 'farmer' | 'technician' | 'structure'
+export type Panel = 'farmer_signup' | 'technician_form' | 'structure_form' | 'salarie_info' | null
+export type ProspectType = 'technician' | 'structure'
 
 const PANELS: Record<Parcours, Panel> = {
-  agriculteur: 'farmer_form',
+  agriculteur: 'farmer_signup',
   technicien: 'technician_form',
   structure: 'structure_form',
   salarie: 'salarie_info',
@@ -16,7 +16,7 @@ const PANELS: Record<Parcours, Panel> = {
 }
 
 const PROSPECT_TYPES: Record<Parcours, ProspectType | null> = {
-  agriculteur: 'farmer',
+  agriculteur: null,
   technicien: 'technician',
   structure: 'structure',
   salarie: null,

@@ -1,4 +1,5 @@
-import { DEFAULT_APP_URL, DEFAULT_SUPPORT_EMAIL, MESSAGE_MAX_CHARS } from './texts.ts'
+import { DEFAULT_APP_URL, DEFAULT_SUPPORT_EMAIL, safeEmail } from '../site.ts'
+import { MESSAGE_MAX_CHARS } from './texts.ts'
 
 // Réglages du chatbot de la landing (serveur uniquement). Aucun secret ici : la clé d'API, les secrets partagés et les
 // adresses viennent des variables d'environnement de Vercel ; les valeurs par défaut sont des constantes nommées.
@@ -83,7 +84,7 @@ export function chatConfig(env: Env = process.env): ChatConfig {
     quotaTimeoutMs: CHAT_DEFAULTS.quotaTimeoutMs,
     statusCacheMs: positiveInt(env.CHAT_STATUS_CACHE_MS, CHAT_DEFAULTS.statusCacheMs),
     statusTimeoutMs: CHAT_DEFAULTS.statusTimeoutMs,
-    supportEmail: present(env.SUPPORT_EMAIL) ?? CHAT_DEFAULTS.supportEmail,
+    supportEmail: safeEmail(env.SUPPORT_EMAIL, CHAT_DEFAULTS.supportEmail),
     backendUrl: (present(env.RAILS_API_URL) ?? CHAT_DEFAULTS.backendUrl).replace(/\/+$/, ''),
     apiKey: present(env.ANTHROPIC_API_KEY),
     signingSecret: present(env.CHAT_SIGNING_SECRET),

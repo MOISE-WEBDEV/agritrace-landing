@@ -1,12 +1,9 @@
-// Textes fixes du chatbot, partagés entre la fenêtre (navigateur) et le serveur. Les adresses publiques viennent de
-// variables NEXT_PUBLIC_* (lues littéralement pour que Next les remplace à la construction), avec une valeur par défaut nommée.
+// Textes fixes du chatbot, partagés entre la fenêtre (navigateur) et le serveur. Les adresses publiques (application,
+// inscription, service client) viennent de src/lib/site.ts : valeur par défaut sûre, variable facultative validée.
 
-export const DEFAULT_SUPPORT_EMAIL = 'service.client@agritrace.fr'
-export const DEFAULT_APP_URL = 'https://www.app.agritrace.fr'
+import { PUBLIC_SUPPORT_EMAIL } from '../site.ts'
 
-export const PUBLIC_SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || DEFAULT_SUPPORT_EMAIL
-export const PUBLIC_APP_URL = (process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL).replace(/\/+$/, '')
-export const SIGNUP_PATH = '/signup'
+export { DEFAULT_APP_URL, DEFAULT_SUPPORT_EMAIL, PUBLIC_APP_URL, PUBLIC_SUPPORT_EMAIL, SIGNUP_PATH, SIGNUP_URL } from '../site.ts'
 
 // Longueur maximale d'un message du visiteur (champ de saisie et contrôle du serveur)
 export const MESSAGE_MAX_CHARS = 1000
@@ -14,7 +11,13 @@ export const MESSAGE_MAX_CHARS = 1000
 // Question unique posée en cas de doute sur le profil
 export const DOUBT_QUESTION = 'Êtes-vous exploitant agricole, technicien conseil, ou représentez-vous une structure ?'
 
-// Case de consentement (non cochée par défaut) : ce texte exact est enregistré avec la date et la source
+// Agriculteur : il crée son compte seul sur l'application ; le chatbot ne lui demande aucune coordonnée
+export const FARMER_SIGNUP_INFO =
+  "Vous créez votre compte vous-même sur l'application : aucune coordonnée n'est demandée ici. " +
+  "Essai gratuit de 30 jours, sans carte bancaire. Vous inviterez ensuite vos salariés depuis le menu « Mon Équipe »."
+export const FARMER_SIGNUP_LABEL = 'Démarrer mon essai gratuit de 30 jours'
+
+// Case de consentement du formulaire technicien (non cochée par défaut) : ce texte exact est enregistré avec la date et la source
 export const CONSENT_TEXT =
   "J'accepte de recevoir des informations et conseils d'Agritrace par e-mail (désinscription possible à tout moment)"
 

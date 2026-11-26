@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
+import { PUBLIC_API_URL } from '@/lib/site.ts'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.app.agritrace.fr'
+const API_URL = PUBLIC_API_URL
 
 interface PressArticle {
   id: string | number

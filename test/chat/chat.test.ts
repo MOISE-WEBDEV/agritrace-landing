@@ -10,7 +10,8 @@ import { sanitizeHistory, signReply, verifyReply } from '../../src/lib/chat/hist
 import { leadPayload } from '../../src/lib/chat/leads.ts'
 import { createStatusCache, requestChatStatus, requestQuota, RELAY_SECRET_HEADER, VISITOR_IP_HEADER, type ChatStatus } from '../../src/lib/chat/relay.ts'
 import { normalizeParcours, panelFor, parseRoutingOutput, prospectTypeFor } from '../../src/lib/chat/routing.ts'
-import { chatbotPaused, CONSENT_TEXT, GENERIC_ERROR, RATE_LIMITED } from '../../src/lib/chat/texts.ts'
+import { replySystemPrompt } from '../../src/lib/chat/prompts.ts'
+import { chatbotPaused, CONSENT_TEXT, FARMER_SIGNUP_LABEL, GENERIC_ERROR, RATE_LIMITED } from '../../src/lib/chat/texts.ts'
 import { CONVERSATIONS } from './conversations.ts'
 
 const SESSION = '0b6f1c1e-8a52-4c39-9a0e-3c2f4d5e6f70'
@@ -53,7 +54,7 @@ test('chaque parcours mène au bon formulaire ou message', () => {
   assert.deepEqual(
     PARCOURS.map((p) => [p, panelFor(p), prospectTypeFor(p)]),
     [
-      ['agriculteur', 'farmer_form', 'farmer'],
+      ['agriculteur', 'farmer_signup', null],
       ['salarie', 'salarie_info', null],
       ['technicien', 'technician_form', 'technician'],
       ['structure', 'structure_form', 'structure'],
@@ -83,7 +84,7 @@ test('le mot « technicien » dans une réponse (même signée) du chatbot ne ch
   )
   assert.equal(result.status, 200)
   assert.equal((result.body as { parcours: string }).parcours, 'agriculteur')
-  assert.equal((result.body as { panel: string }).panel, 'farmer_form')
+  assert.equal((result.body as { panel: string }).panel, 'farmer_signup')
   assert.doesNotMatch(calls.classify[0], /technicien|conseiller/i)
   assert.match(calls.classify[0], /viticulteur avec 5 salariés/)
 })
@@ -332,8 +333,8 @@ test('cache court de l’interrupteur : une requête par période ; « unknown �
 
 test('formulaires : champs prévus seulement ; consentement transmis seulement si la case est cochée, jamais pour une structure', () => {
   assert.deepEqual(
-    leadPayload({ prospect_type: 'farmer', first_name: 'Paul', email: 'p@example.test', culture_type: 'viticulture', status: 'converted', marketing_consent: true }),
-    { prospect_type: 'farmer', first_name: 'Paul', email: 'p@example.test', culture_type: 'viticulture', marketing_consent: true, consent_text: CONSENT_TEXT }
+    leadPayload({ prospect_type: 'technician', first_name: 'Léa', last_name: 'B', company: 'Indépendante', email: 'l@example.test', status: 'converted', marketing_consent: true }),
+    { prospect_type: 'technician', first_name: 'Léa', last_name: 'B', company: 'Indépendante', email: 'l@example.test', marketing_consent: true, consent_text: CONSENT_TEXT }
   )
   assert.deepEqual(
     leadPayload({ prospect_type: 'technician', first_name: 'Léa', last_name: 'B', company: 'Indépendante', email: 'l@example.test', marketing_consent: false }),
@@ -345,4 +346,36 @@ test('formulaires : champs prévus seulement ; consentement transmis seulement s
   )
   assert.equal(leadPayload({ prospect_type: 'admin', email: 'x@example.test' }), null)
   assert.equal(leadPayload(null), null)
+})
+
+test('agriculteur : aucun formulaire ni prospect, un envoi « farmer » est refusé avant le backend', () => {
+  assert.equal(
+    leadPayload({ prospect_type: 'farmer', first_name: 'Paul', email: 'p@example.test', culture_type: 'viticulture', surface: '12', marketing_consent: true }),
+    null
+  )
+  assert.equal(prospectTypeFor('agriculteur'), null)
+})
+
+// --- Ce qui s'affiche pour chaque profil (parcours choisi par le modèle, ici simulé) ---
+
+const PANEL_CASES: Array<[string, string, string | null]> = [
+  ['Je suis viticulteur avec 5 salariés', 'agriculteur', 'farmer_signup'],
+  ['Je suis technicien agronome indépendant', 'technicien', 'technician_form'],
+  ['Je travaille pour une coopérative', 'structure', 'structure_form'],
+  ["Je suis salarié d'un domaine viticole", 'salarie', 'salarie_info'],
+]
+
+for (const [message, parcours, panel] of PANEL_CASES) {
+  test(`« ${message} » → ${panel}`, async () => {
+    const calls: Calls = { classify: [], reply: [], quota: 0, logs: [] }
+    const result = await handleChat({ message, session_id: SESSION, conversation_history: [] }, deps({ classify: async () => parcours }, calls))
+    assert.equal(result.status, 200)
+    assert.equal((result.body as { panel: string | null }).panel, panel)
+  })
+}
+
+test('consignes agriculteur : bouton d’inscription annoncé, aucune coordonnée demandée', () => {
+  const prompt = replySystemPrompt('agriculteur', 'support@example.test')
+  assert.match(prompt, new RegExp(FARMER_SIGNUP_LABEL))
+  assert.match(prompt, /Ne demande jamais de coordonnées/)
 })
