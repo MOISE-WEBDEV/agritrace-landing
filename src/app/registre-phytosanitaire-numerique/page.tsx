@@ -3,8 +3,7 @@
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-
-const APP_URL = 'https://www.app.agritrace.fr'
+import { PUBLIC_APP_URL, SIGNUP_URL } from '@/lib/site.ts'
 
 // ATTENTION SEO — Cette page est l'actif organique principal du site.
 // Ne pas modifier sans precaution :
@@ -17,11 +16,11 @@ const APP_URL = 'https://www.app.agritrace.fr'
 
 export default function RegistrePhytosanitaireNumerique() {
   const handleSignup = () => {
-    window.location.href = `${APP_URL}/signup`
+    window.location.href = SIGNUP_URL
   }
 
   const handleLogin = () => {
-    window.location.href = APP_URL
+    window.location.href = PUBLIC_APP_URL
   }
 
   return (

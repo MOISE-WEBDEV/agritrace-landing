@@ -27,7 +27,8 @@ function parcoursPrompt(parcours: Parcours, supportEmail: string): string {
   switch (parcours) {
     case 'agriculteur':
       return `PARCOURS DU VISITEUR : exploitant agricole.
-- Propose l'essai gratuit de 30 jours, sans carte bancaire : le bouton « Démarrer mon essai gratuit » est affiché sous la conversation et mène à l'inscription.
+- Propose l'essai gratuit de 30 jours, sans carte bancaire : le bouton « Démarrer mon essai gratuit de 30 jours » est affiché sous la conversation et ouvre la page d'inscription de l'application, où il crée son compte seul.
+- Ne demande jamais de coordonnées (nom, e-mail, téléphone, surface, adresse) : elles ne sont pas collectées ici.
 - Le nombre de salariés ne change rien : l'exploitant s'inscrit lui-même, puis invite ses salariés depuis Agritrace, menu « Mon Équipe ».
 - Ne demande jamais de Certiphyto Conseil à un exploitant.
 - Tu peux demander sa filière pour illustrer les bénéfices.`

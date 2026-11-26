@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { PUBLIC_API_URL, SIGNUP_URL, appPageUrl } from '@/lib/site.ts'
 
 interface Review {
   id: number
@@ -17,7 +18,7 @@ interface Review {
   created_at: string
 }
 
-const API_URL = 'https://www.app.agritrace.fr/api/v1'
+const API_URL = `${PUBLIC_API_URL}/api/v1`
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -100,7 +101,7 @@ export default function Temoignages() {
             <span className="font-bold">Agritrace</span>
           </Link>
           <a
-            href="https://www.app.agritrace.fr/signup"
+            href={SIGNUP_URL}
             className="bg-agri-green hover:bg-agri-green-dark text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
           >
             Créer un compte
@@ -155,7 +156,7 @@ export default function Temoignages() {
               Soyez le premier à partager votre expérience avec Agritrace !
             </p>
             <a
-              href="https://www.app.agritrace.fr/signup"
+              href={SIGNUP_URL}
               className="inline-block bg-agri-green hover:bg-agri-green-dark text-white px-6 py-3 rounded-full font-medium transition-colors"
             >
               Créer un compte gratuit
@@ -178,7 +179,7 @@ export default function Temoignages() {
             Partagez votre expérience et aidez d&apos;autres agriculteurs à découvrir comment Agritrace peut simplifier la gestion de leur exploitation.
           </p>
           <a
-            href="https://www.app.agritrace.fr/settings"
+            href={appPageUrl('/settings')}
             className="inline-block bg-agri-green hover:bg-agri-green-dark text-white px-6 py-3 rounded-full font-medium transition-colors"
           >
             Laisser un avis

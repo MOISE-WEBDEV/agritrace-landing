@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PUBLIC_API_URL } from '@/lib/site.ts'
 
 interface Review {
   id: number
@@ -16,7 +17,7 @@ interface Review {
   created_at: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.app.agritrace.fr'
+const API_URL = PUBLIC_API_URL
 
 export default function Testimonials() {
   const [reviews, setReviews] = useState<Review[]>([])

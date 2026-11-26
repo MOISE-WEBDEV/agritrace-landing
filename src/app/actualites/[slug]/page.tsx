@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { PUBLIC_API_URL, SIGNUP_URL } from '@/lib/site.ts'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.app.agritrace.fr'
+const API_URL = PUBLIC_API_URL
 
 interface PressArticle {
   id: string | number
@@ -401,7 +402,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             Essai gratuit 30 jours, sans engagement.
           </p>
           <a
-            href="https://www.app.agritrace.fr/signup"
+            href={SIGNUP_URL}
             className="inline-flex items-center gap-2 bg-white text-green-600 px-8 py-3 rounded-lg font-medium hover:bg-green-50 transition-colors"
           >
             Essayer Agritrace gratuitement

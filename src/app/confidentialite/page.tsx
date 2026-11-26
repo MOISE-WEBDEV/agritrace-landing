@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PUBLIC_SUPPORT_EMAIL, supportMailto } from '@/lib/site.ts'
 
 export default function Confidentialite() {
   return (
@@ -171,7 +172,7 @@ export default function Confidentialite() {
             <p className="text-gray-600 leading-relaxed mt-4">
               Chaque message comporte un lien de désinscription. Vous pouvez également demander à
               tout moment la suppression de vos coordonnées en écrivant à
-              {' '}<a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>.
+              {' '}<a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a>.
             </p>
           </section>
 
@@ -183,8 +184,13 @@ export default function Confidentialite() {
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4 mt-4">
               <li>
-                <strong>Exploitant agricole</strong> (prénom, e-mail, type de culture, surface) : pour vous
-                orienter vers l&apos;inscription et répondre à votre demande
+                <strong>Exploitant agricole</strong> : aucune coordonnée n&apos;est demandée par
+                l&apos;assistant. Il vous propose un bouton qui ouvre la page d&apos;inscription de
+                l&apos;application, où vous créez votre compte vous-même (voir la section 2)
+              </li>
+              <li>
+                <strong>Salarié d&apos;une exploitation</strong> : aucune coordonnée n&apos;est demandée ;
+                votre employeur vous invite depuis Agritrace
               </li>
               <li>
                 <strong>Technicien conseil indépendant</strong> (prénom, nom, statut ou entreprise, e-mail) :
@@ -199,11 +205,16 @@ export default function Confidentialite() {
               </li>
             </ul>
             <p className="text-gray-600 leading-relaxed mt-4">
-              Les formulaires exploitant et technicien comportent une case, non cochée par défaut, pour
+              Le formulaire technicien comporte une case, non cochée par défaut, pour
               accepter de recevoir des informations et conseils d&apos;Agritrace par e-mail. Sans cette
               case cochée, nous répondons seulement à votre demande. Nous enregistrons la date, le texte
               accepté et le formulaire d&apos;origine de votre accord, que vous pouvez retirer à tout moment
               par le lien de désinscription présent dans chaque e-mail.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4">
+              Jusqu&apos;en novembre 2026, l&apos;assistant proposait aussi un formulaire aux exploitants
+              (prénom, e-mail, type de culture, surface). Les demandes déjà envoyées par ce formulaire
+              suivent la même durée de conservation que les autres demandes (section 6).
             </p>
           </section>
 
@@ -256,7 +267,7 @@ export default function Confidentialite() {
               <li><strong>Droit de limitation</strong> : limiter le traitement de vos données</li>
             </ul>
             <p className="text-gray-600 leading-relaxed mt-4">
-              Pour exercer ces droits, contactez-nous à : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a>
+              Pour exercer ces droits, contactez-nous à : <a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a>
             </p>
           </section>
 
@@ -272,7 +283,7 @@ export default function Confidentialite() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">10. Contact</h2>
             <p className="text-gray-600 leading-relaxed">
               Pour toute question relative à cette politique de confidentialité :<br /><br />
-              Email : <a href="mailto:service.client@agritrace.fr" className="text-agri-green hover:underline">service.client@agritrace.fr</a><br />
+              Email : <a href={supportMailto()} className="text-agri-green hover:underline">{PUBLIC_SUPPORT_EMAIL}</a><br />
               Vous pouvez également déposer une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-agri-green hover:underline">www.cnil.fr</a>
             </p>
           </section>

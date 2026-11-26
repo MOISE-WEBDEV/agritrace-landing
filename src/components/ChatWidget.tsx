@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect } from 'react'
 import {
   CONSENT_TEXT,
+  FARMER_SIGNUP_INFO,
+  FARMER_SIGNUP_LABEL,
   GENERIC_ERROR,
   MESSAGE_MAX_CHARS,
-  PUBLIC_APP_URL,
-  PUBLIC_SUPPORT_EMAIL,
   SALARIE_INFO,
-  SIGNUP_PATH,
   privacyNotice,
 } from '@/lib/chat/texts.ts'
+import { PUBLIC_SUPPORT_EMAIL, SIGNUP_URL, supportMailto } from '@/lib/site.ts'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -19,26 +19,23 @@ interface Message {
   signature?: string | null
 }
 
-type Panel = 'farmer_form' | 'technician_form' | 'structure_form' | 'salarie_info' | null
-type FormType = 'farmer' | 'technician' | 'structure'
+type Panel = 'farmer_signup' | 'technician_form' | 'structure_form' | 'salarie_info' | null
+// Formulaires du chatbot : technicien et structure seulement (l'agriculteur s'inscrit seul sur l'application)
+type FormType = 'technician' | 'structure'
 
 const SESSION_KEY = 'agritrace-chat-session'
-const SIGNUP_URL = `${PUBLIC_APP_URL}${SIGNUP_PATH}`
 
 const FORM_OF_PANEL: Partial<Record<Exclude<Panel, null>, FormType>> = {
-  farmer_form: 'farmer',
   technician_form: 'technician',
   structure_form: 'structure',
 }
 
 const FORM_TITLES: Record<FormType, string> = {
-  farmer: '🌾 Essayez Agritrace gratuitement',
   technician: '👨‍🌾 Compte technicien conseil',
   structure: '🏢 Votre structure',
 }
 
 const ACTION_LABELS: Record<FormType, string> = {
-  farmer: 'Démarrer mon essai gratuit',
   technician: 'Demander mon compte technicien',
   structure: 'Être recontacté',
 }
@@ -265,6 +262,18 @@ export default function ChatWidget() {
             {SALARIE_INFO}
           </div>
         )}
+        {/* Agriculteur : inscription directe dans le même onglet (le plus simple sur téléphone), aucune coordonnée */}
+        {!isLoading && panel === 'farmer_signup' && (
+          <div className="bg-white border border-[#1b6f3a]/30 rounded-xl p-3 text-sm text-gray-700 flex flex-col gap-3" data-chat-panel="farmer_signup">
+            <p>{FARMER_SIGNUP_INFO}</p>
+            <a
+              href={SIGNUP_URL}
+              className="block w-full py-2.5 text-center bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors"
+            >
+              {FARMER_SIGNUP_LABEL}
+            </a>
+          </div>
+        )}
         {!isLoading && actionForm && (
           <div className="flex flex-col gap-2" data-chat-panel={panel ?? ''}>
             <button
@@ -286,20 +295,6 @@ export default function ChatWidget() {
             <button onClick={closeOverlays} className="text-white/80 hover:text-white" aria-label="Fermer le formulaire">✕</button>
           </div>
           <form onSubmit={submitForm} className="flex-1 overflow-y-auto p-4 space-y-3">
-            {openForm === 'farmer' && (
-              <>
-                <input name="first_name" required placeholder="Prénom *" className={inputClass} />
-                <select name="culture_type" className={`${inputClass} bg-white`}>
-                  <option value="">Type de culture</option>
-                  <option value="grande_culture">Grandes cultures</option>
-                  <option value="arboriculture">Arboriculture fruitière</option>
-                  <option value="viticulture">Viticulture</option>
-                </select>
-                <input name="surface" placeholder="Surface approximative (ha)" className={inputClass} />
-                <input name="email" type="email" required placeholder="Email *" className={inputClass} />
-                <ConsentBox />
-              </>
-            )}
             {openForm === 'technician' && (
               <>
                 <input name="first_name" required placeholder="Prénom *" className={inputClass} />
@@ -329,14 +324,9 @@ export default function ChatWidget() {
               disabled={isSending}
               className="w-full py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] disabled:opacity-60 transition-colors"
             >
-              {openForm === 'farmer' ? 'Démarrer mon essai gratuit' : 'Envoyer ma demande'}
+              Envoyer ma demande
             </button>
-            {openForm === 'farmer' && (
-              <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer" className="block text-center text-xs text-[#1b6f3a] underline">
-                Créer mon compte directement, sans laisser mes coordonnées ici
-              </a>
-            )}
-            <PrivacyNotice withConsent={openForm !== 'structure'} />
+            <PrivacyNotice withConsent={openForm === 'technician'} />
           </form>
         </div>
       )}
@@ -345,31 +335,14 @@ export default function ChatWidget() {
       {submitted && (
         <div className="absolute inset-0 bg-white z-10 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-4xl mb-4">✅</span>
-          {submitted === 'farmer' ? (
-            <>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Bienvenue sur Agritrace !</h3>
-              <p className="text-sm text-gray-600 mb-4">Créez votre compte et profitez de 30 jours d&apos;essai gratuit.</p>
-              <a
-                href={SIGNUP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 bg-[#1b6f3a] text-white rounded-lg font-semibold text-sm hover:bg-[#0a751f] transition-colors"
-              >
-                Créer mon compte
-              </a>
-            </>
-          ) : (
-            <>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Demande envoyée !</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Notre équipe vous recontacte rapidement.
-                {submitted === 'technician' && ' Préparez votre Certiphyto Conseil, il vous sera demandé.'}
-              </p>
-              <a href={`mailto:${PUBLIC_SUPPORT_EMAIL}`} className="text-[#1b6f3a] font-semibold underline">
-                {PUBLIC_SUPPORT_EMAIL}
-              </a>
-            </>
-          )}
+          <h3 className="font-bold text-lg text-gray-800 mb-2">Demande envoyée !</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Notre équipe vous recontacte rapidement.
+            {submitted === 'technician' && ' Préparez votre Certiphyto Conseil, il vous sera demandé.'}
+          </p>
+          <a href={supportMailto()} className="text-[#1b6f3a] font-semibold underline">
+            {PUBLIC_SUPPORT_EMAIL}
+          </a>
           <button onClick={() => { setIsOpen(false); closeOverlays() }} className="mt-4 text-sm text-gray-400 hover:text-gray-600">
             Fermer
           </button>
