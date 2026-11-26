@@ -32,6 +32,7 @@ for (const conversation of CONVERSATIONS) {
         { message, session_id: SESSION, conversation_history: history },
         {
           config,
+          status: async () => 'enabled',
           quota: async () => 'ok',
           classify: (text) => classifyWithClaude(client, config, text),
           reply: (system, turns) => replyWithClaude(client, config, system, turns),

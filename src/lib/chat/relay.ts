@@ -6,6 +6,7 @@ export const RELAY_SECRET_HEADER = 'X-Agritrace-Relay-Secret'
 export const VISITOR_IP_HEADER = 'X-Agritrace-Visitor-Ip'
 export const QUOTA_PATH = '/api/v1/public_chat_quota'
 export const LEADS_PATH = '/api/v1/public_leads'
+export const STATUS_PATH = '/api/v1/public_chat_status'
 
 type HeaderReader = { get(name: string): string | null }
 
@@ -51,5 +52,49 @@ export async function requestQuota(request: QuotaRequest): Promise<QuotaResult> 
     return body?.allowed === true ? 'ok' : 'unavailable'
   } catch {
     return 'unavailable'
+  }
+}
+
+// --- Interrupteur « Chatbot de la landing actif » (page Agents IA du backend) ---
+
+// « unknown » : secret absent ou backend injoignable. Le chatbot continue alors ; le quota, demandé juste après, refuse
+// de toute façon sans backend : aucune dépense sans limite.
+export type ChatStatus = 'enabled' | 'disabled' | 'unknown'
+
+export interface StatusRequest {
+  backendUrl: string
+  secret: string | null
+  timeoutMs: number
+  fetchImpl?: typeof fetch
+}
+
+export async function requestChatStatus(request: StatusRequest): Promise<ChatStatus> {
+  if (!request.secret) return 'unknown'
+  const fetchImpl = request.fetchImpl ?? fetch
+  try {
+    const response = await fetchImpl(`${request.backendUrl}${STATUS_PATH}`, {
+      method: 'GET',
+      headers: { [RELAY_SECRET_HEADER]: request.secret },
+      signal: AbortSignal.timeout(request.timeoutMs),
+    })
+    if (!response.ok) return 'unknown'
+    const body = (await response.json().catch(() => null)) as { enabled?: unknown } | null
+    if (body?.enabled === true) return 'enabled'
+    if (body?.enabled === false) return 'disabled'
+    return 'unknown'
+  } catch {
+    return 'unknown'
+  }
+}
+
+// Cache court de l'état (par instance de la fonction serveur). Seules les réponses nettes du backend sont gardées :
+// « unknown » est redemandé au message suivant.
+export function createStatusCache(fetchStatus: () => Promise<ChatStatus>, ttlMs: number, now: () => number = Date.now) {
+  let cached: { status: ChatStatus; until: number } | null = null
+  return async function currentStatus(): Promise<ChatStatus> {
+    if (cached && now() < cached.until) return cached.status
+    const status = await fetchStatus()
+    cached = status === 'unknown' ? null : { status, until: now() + ttlMs }
+    return status
   }
 }

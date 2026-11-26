@@ -1,16 +1,18 @@
 // Traitement d'un message du chatbot, indépendant de Next et du SDK (dépendances injectées, donc testable) :
-// quota → historique vérifié → parcours (messages du visiteur seulement) → réponse → signature de la réponse.
+// interrupteur du backend → quota → historique vérifié → parcours (messages du visiteur seulement) → réponse → signature de la réponse.
 // Toute erreur donne un message générique au navigateur ; le détail ne va que dans les journaux du serveur.
 
 import type { ChatConfig, Parcours } from './config.ts'
 import { isValidSessionId, normalizeTurns, sanitizeHistory, signReply, visitorMessages, type ChatTurn } from './history.ts'
 import { replySystemPrompt } from './prompts.ts'
-import type { QuotaResult } from './relay.ts'
+import type { ChatStatus, QuotaResult } from './relay.ts'
 import { normalizeParcours, panelFor, routingInput, type Panel } from './routing.ts'
-import { GENERIC_ERROR, RATE_LIMITED } from './texts.ts'
+import { chatbotPaused, GENERIC_ERROR, RATE_LIMITED } from './texts.ts'
 
 export interface ChatDeps {
   config: ChatConfig
+  // État de l'interrupteur « Chatbot de la landing actif » (avec cache court)
+  status: () => Promise<ChatStatus>
   quota: (sessionId: string) => Promise<QuotaResult>
   // Renvoie la valeur brute proposée par le modèle (contrôlée ici)
   classify: (routingText: string) => Promise<unknown>
@@ -35,6 +37,10 @@ export async function handleChat(body: unknown, deps: ChatDeps): Promise<ChatRes
 
   if (message === '' || message.length > config.maxMessageChars || !isValidSessionId(sessionId)) {
     return { status: 400, body: { error: INVALID_MESSAGE } }
+  }
+  // Coupé depuis l'admin : message neutre, sans quota ni appel à l'API Claude
+  if ((await deps.status()) === 'disabled') {
+    return { status: 503, body: { error: chatbotPaused(config.supportEmail) } }
   }
   if (!config.apiKey) {
     deps.log('[chat] ANTHROPIC_API_KEY absente')
